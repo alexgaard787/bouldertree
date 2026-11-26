@@ -5,7 +5,9 @@
   "description": "Validation harness and schema for BoulderTree local group fork configs",
   "scripts": {
     "validate": "node scripts/validate.mjs",
-    "test": "node scripts/validate.mjs"
+    "test": "node scripts/validate.mjs",
+    "validate:config": "node scripts/validate-group-config.js",
+    "test:harness": "node scripts/test-validate-group-config.js"
   },
   "engines": {
     "node": ">=20"

@@ -1,0 +1,14 @@
+{
+  "isSample": true,
+  "schemaVersion": "1.1.0",
+  "groupName": "Jordan Whitfield Group",
+  "venueLabel": "Club 101",
+  "meetings": [
+    { "day": "Tuesday", "time": "7:30 p.m.", "timezone": "[VERIFY]", "format": "open", "attendance": "hybrid" }
+  ],
+  "links": {
+    "website": "https://bottomline-example.org",
+    "regionalSite": "https://bottomline-example.org/news?utm_source=newsletter",
+    "areaHub": "https://www.amazon.com/recovery-books"
+  }
+}

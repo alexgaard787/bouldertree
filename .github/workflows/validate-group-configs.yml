@@ -30,3 +30,6 @@ jobs:
 
       - name: Validate example configs
         run: npm test
+
+      - name: Run validate-group-config.js harness (examples pass, bad fixtures fail)
+        run: npm run test:harness

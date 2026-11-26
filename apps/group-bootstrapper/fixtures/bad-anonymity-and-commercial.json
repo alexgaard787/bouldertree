@@ -1,0 +1,30 @@
+{
+  "isSample": true,
+  "schemaVersion": "1.1.0",
+  "slug": "bad-fixture",
+  "groupName": "Bottom Line",
+  "venueLabel": "Club 101",
+  "contactName": "Jordan Whitfield",
+  "lastName": "Whitfield",
+  "meetings": [
+    {
+      "day": "Tuesday",
+      "time": "19:30",
+      "timezone": "America/Chicago",
+      "format": "open",
+      "attendance": "hybrid",
+      "notes": "Call the chair at 512-555-0142 or email chair.person@example.com"
+    }
+  ],
+  "links": {
+    "website": "https://bottomline-example.org",
+    "onlineMeetingUrl": "https://zoom.us/j/0000000000",
+    "worldConferenceBooking": "https://www.serenity-rehab-treatment.example/rooms?utm_source=ca",
+    "flyerSubmission": "https://shop.example.com/products/recovery-coins?ref=group"
+  },
+  "traditionsCompliance": {
+    "noPersonalLastNames": true,
+    "noCommercialEndorsement": false,
+    "autoPurgeTransientContactLogs": true
+  }
+}

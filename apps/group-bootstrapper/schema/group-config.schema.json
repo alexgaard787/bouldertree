@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://raw.githubusercontent.com/alexgaard787/bouldertree/main/apps/group-bootstrapper/schema/group-config.schema.json",
   "title": "BoulderTree local group fork configuration",
-  "description": "JSON Schema for a local C.A. group website fork (group.json). Based on Drive folder '02 - CA Regional Website & Service' documents 'Group Fork Config - Bottom Line (Club 101)' and 'BoulderTree \u2014 GitHub Repository Architecture'. Every factual field accepts the literal placeholder '[VERIFY]'. Anonymity rules (Traditions Eleven and Twelve): no person names, personal phone numbers, or personal email addresses. The only optional contact fields are a group service email and a group service URL. additionalProperties is false throughout. Do not commit live rosters or private records.",
+  "description": "JSON Schema for a local C.A. group website fork (group.json). Based on Drive folder '02 - CA Regional Website & Service' documents 'Group Fork Config - Bottom Line (Club 101)' and 'BoulderTree — GitHub Repository Architecture'. Every factual field accepts the literal placeholder '[VERIFY]'. Anonymity rules (Traditions Eleven and Twelve): no person names, personal phone numbers, or personal email addresses. The only optional contact fields are a group service email and a group service URL. additionalProperties is false throughout. Do not commit live rosters or private records. v1.1.0 (additive, backward compatible) adds optional fellowship, region, area, areaSlug, venueLocality, traditionsCompliance, worldConference2027, meetings[].durationMinutes, and links.areaHub from Drive docs 'BoulderTree — group-config.schema.json & JSON-LD Generator Spec' and 'CA Southwest Region — SEO, Geographic Routing & Local Meeting Pivot Blueprint'.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -18,8 +18,11 @@
     },
     "schemaVersion": {
       "type": "string",
-      "const": "1.0.0",
-      "description": "Version of this configuration shape. Must be 1.0.0 for this schema."
+      "enum": [
+        "1.0.0",
+        "1.1.0"
+      ],
+      "description": "Version of this configuration shape. 1.0.0 (original) or 1.1.0 (adds optional geographic, compliance, and conference fields)."
     },
     "slug": {
       "$ref": "#/$defs/publicSafeString",
@@ -86,6 +89,39 @@
     },
     "sections": {
       "$ref": "#/$defs/sections"
+    },
+    "fellowship": {
+      "$ref": "#/$defs/verifiableString",
+      "description": "Fellowship name used in JSON-LD (for example 'Cocaine Anonymous'). Optional; the generator defaults to 'Cocaine Anonymous'."
+    },
+    "region": {
+      "$ref": "#/$defs/verifiableString",
+      "description": "Regional service boundary (for example 'Southwest Region'). Used for areaServed / parentOrganization JSON-LD and hub routing."
+    },
+    "area": {
+      "$ref": "#/$defs/verifiableString",
+      "description": "Area or metro hub name (for example 'Austin / Central Texas'). Used for hub-and-spoke routing and areaServed."
+    },
+    "areaSlug": {
+      "anyOf": [
+        {
+          "const": "[VERIFY]"
+        },
+        {
+          "type": "string",
+          "pattern": "^[a-z0-9-]+$"
+        }
+      ],
+      "description": "URL-safe area hub slug (for example 'austin-central-texas'), or '[VERIFY]'."
+    },
+    "venueLocality": {
+      "$ref": "#/$defs/venueLocality"
+    },
+    "traditionsCompliance": {
+      "$ref": "#/$defs/traditionsCompliance"
+    },
+    "worldConference2027": {
+      "$ref": "#/$defs/worldConference2027"
     }
   },
   "$defs": {
@@ -243,6 +279,19 @@
         },
         "notes": {
           "$ref": "#/$defs/verifiableString"
+        },
+        "durationMinutes": {
+          "anyOf": [
+            {
+              "const": "[VERIFY]"
+            },
+            {
+              "type": "integer",
+              "minimum": 15,
+              "maximum": 240
+            }
+          ],
+          "description": "Meeting length in minutes, or '[VERIFY]'."
         }
       }
     },
@@ -273,6 +322,9 @@
           "$ref": "#/$defs/verifiableHttpUrl"
         },
         "firstMeetingGuide": {
+          "$ref": "#/$defs/verifiableHttpUrl"
+        },
+        "areaHub": {
           "$ref": "#/$defs/verifiableHttpUrl"
         }
       }
@@ -322,6 +374,95 @@
         "regionalHotline": {
           "$ref": "#/$defs/section",
           "description": "Pointer to a regional help page only. Do not put a phone number in title, summary, or url."
+        }
+      }
+    },
+    "verifiableDate": {
+      "anyOf": [
+        {
+          "const": "[VERIFY]"
+        },
+        {
+          "type": "string",
+          "format": "date"
+        }
+      ]
+    },
+    "venueLocality": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Public city/state/country of the venue (no street address here). Each value may be '[VERIFY]'.",
+      "properties": {
+        "city": {
+          "$ref": "#/$defs/verifiableString"
+        },
+        "state": {
+          "anyOf": [
+            {
+              "const": "[VERIFY]"
+            },
+            {
+              "type": "string",
+              "pattern": "^[A-Z]{2}$"
+            }
+          ]
+        },
+        "country": {
+          "anyOf": [
+            {
+              "const": "[VERIFY]"
+            },
+            {
+              "type": "string",
+              "pattern": "^[A-Z]{2}$"
+            }
+          ]
+        }
+      }
+    },
+    "traditionsCompliance": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Explicit Traditions Six, Seven, Eleven, and Twelve guardrail acknowledgements. When present, every flag must be true.",
+      "required": [
+        "noPersonalLastNames",
+        "noCommercialEndorsement",
+        "autoPurgeTransientContactLogs"
+      ],
+      "properties": {
+        "noPersonalLastNames": {
+          "type": "boolean",
+          "const": true
+        },
+        "noCommercialEndorsement": {
+          "type": "boolean",
+          "const": true
+        },
+        "autoPurgeTransientContactLogs": {
+          "type": "boolean",
+          "const": true
+        }
+      }
+    },
+    "worldConference2027": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "August 2027 World Conference room-block card facts. Booking URL lives in links.worldConferenceBooking. Unconfirmed values stay '[VERIFY]'.",
+      "properties": {
+        "enabled": {
+          "$ref": "#/$defs/verifiableBoolean"
+        },
+        "monthYear": {
+          "$ref": "#/$defs/verifiableString"
+        },
+        "noUpfrontPayment": {
+          "$ref": "#/$defs/verifiableBoolean"
+        },
+        "startDate": {
+          "$ref": "#/$defs/verifiableDate"
+        },
+        "endDate": {
+          "$ref": "#/$defs/verifiableDate"
         }
       }
     }
