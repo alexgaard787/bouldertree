@@ -13,7 +13,13 @@
     "build:region": "node scripts/build-region.js",
     "build": "npm run build:forks && npm run build:region",
     "test:bootstrap": "node scripts/test-bootstrap-group.js",
-    "check:generated": "node scripts/bootstrap-group.js examples/bottom-line-club-101.v2.json --check && node scripts/build-region.js --check"
+    "check:generated": "node scripts/bootstrap-group.js examples/bottom-line-club-101.v2.json --check && node scripts/build-region.js --check",
+    "archive:flyers": "node ../../platforms/ca-regional/scripts/archive-flyers.js",
+    "check:archive": "node ../../platforms/ca-regional/scripts/archive-flyers.js --check",
+    "test:archive": "node --test ../../platforms/ca-regional/scripts/test-archive-flyers.js",
+    "test:anon-triage": "node --test ../../platforms/ca-regional/scripts/test-anon-and-triage.js",
+    "test:metrics": "node --test ../../platforms/ca-regional/scripts/test-metrics-rollup.js",
+    "test:bridge": "node --test ../../platforms/ca-regional/automations/callback-bridge/test/bridge.test.js"
   },
   "engines": {
     "node": ">=20"

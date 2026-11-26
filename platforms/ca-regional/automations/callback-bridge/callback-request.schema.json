@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/alexgaard787/bouldertree/main/platforms/ca-regional/automations/callback-bridge/callback-request.schema.json",
+  "title": "After-hours callback request (Blueprint Webhook #1)",
+  "description": "What the website POSTs when a person asks for a callback. No last names, no email, no IP, no device ID. callbackNumber is TRANSIENT: kept only until the call connects or the TTL expires, then purged.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["pathType", "areaSlug", "callbackNumber", "consent"],
+  "properties": {
+    "pathType": { "enum": ["seeking-recovery", "family-friend", "professional-referral", "member-service"] },
+    "alias": { "type": "string", "maxLength": 30, "pattern": "^[A-Za-z][A-Za-z'.-]*$", "description": "Optional single first name or alias. One word only, so a last name can't be sent." },
+    "areaSlug": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$" },
+    "callbackNumber": { "type": "string", "pattern": "^\\+[1-9][0-9]{7,14}$", "description": "E.164. Transient." },
+    "consent": { "const": true, "description": "Person agreed to a call back and to the number being deleted afterward." }
+  }
+}

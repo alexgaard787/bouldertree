@@ -4,8 +4,8 @@
   "slug": "bottom-line-club-101",
   "area": "austin-central-texas",
   "sourceConfigSha256": "ebc1f0c21ac7932864f618ed6bdda44dc3a5287155fad5f706555d11b53953b6",
-  "regionalFeedsSha256": "f6f8de310563bece3e58ddc7cb6ef2cd498ecb85ab872596e42ea49af454c6c1",
-  "templateSha256": "a8024a0aa37fd169807caa64e65fb8f433700cc2b55114d603bde1ff81ed7c8c",
+  "regionalFeedsSha256": "fe02603b4c0a972994e20657155df504a9753b4f7917ff2c45b5023269e6f867",
+  "templateSha256": "26164c87c9a5ecccb4e421a8a438c4787ce28bd8b9c792c9dd54ef98dc949882",
   "inherits": [
     "data/region.json",
     "data/news.json",

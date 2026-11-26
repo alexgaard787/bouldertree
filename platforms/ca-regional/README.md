@@ -33,3 +33,17 @@ The regional site is now the core product:
 - `templates/`: the shared template layer (see `templates/README.md`)
 - Group forks are generated into `/forks/<slug>/` by `bootstrap-group.js`.
 - `southwest/bottom-line-club-101/index.html`: Prototype V1, kept unchanged for reference
+
+## Blueprint automations, Phase 1 + spec stubs (added after the regional core)
+
+Source: *CA Regional Website — Webhooks, Automations & Service Workflows Blueprint* (folder 02). Every endpoint, number, provider, and hour is `[VERIFY]`.
+
+| Blueprint | What is built | Where | Test / CI |
+|---|---|---|---|
+| #5 Flyer intake anonymity check | Before preview, the browser scans the file name, the typed title/area, and file metadata (PDF Info + XMP, JPEG EXIF/XMP strings, PNG tEXt/iTXt, SVG text) for names, phones, and emails. Phone/email **blocks**; a possible name **warns**. Raster images are re-encoded to strip metadata. | `templates/shared/anon-scan.js` (inlined into every page) | `npm run test:anon-triage` |
+| #6 Daily flyer archival | Each flyer has `eventEndDate`. `archive-flyers.js` moves past-event flyers into `archive[]` (shown as "Past events"). CI runs `--check` daily, and the job fails when a flyer is due. | `scripts/archive-flyers.js`, `data/flyers.json` | `npm run test:archive`, `npm run check:archive` |
+| #7 Group Struggles triage | Topic → route (Internet Chair / Unity Chair & Area Liaisons / Hotline-H&I-PI chair / Council Service Log), an urgency flag, and no identity fields. The payload must match `struggles-payload.schema.json`. Endpoint `[VERIFY]`; preview only. | `templates/shared/triage.js`, `data/schema/struggles-payload.schema.json` | `npm run test:anon-triage` |
+| #10 Zero-surveillance metrics | Two segments: **People Seeking Recovery** and **People Active in the C.A. Sphere**. Allowlisted events, monthly counts, and no timestamps, IPs, cookies, or IDs. A "Download monthly counts" export feeds `metrics-rollup.js`, which builds the Monthly Snapshot rows. | `templates/shared/site.js`, `scripts/metrics-rollup.js` | `npm run test:metrics` |
+| #1–#2 After-hours callback bridge | **SPEC + STUB ONLY**, with no live telephony. Covers the timeline, the 3-tier ladder (0–45 s / 45–90 s / 90 s+), transient-number purge (on connect, on STOP, or at TTL), and log redaction. It refuses to go live while any `[VERIFY]` remains. | `automations/callback-bridge/` | `npm run test:bridge` |
+
+Not built yet (Blueprint Phase 2/3): #3 Happening Next SMS router, #4 aftercare/family auto-pointer, #8 conference counters and .ics on a server, #9 automatic fork sync on feed change.

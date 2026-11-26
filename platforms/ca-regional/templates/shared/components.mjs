@@ -49,6 +49,7 @@ export function helpCard(region) {
     <p><strong>${esc(h.label)}:</strong> ${num}</p>
     <p class="hint">${esc(h.note || "")}</p>
     ${crisis ? `<ul>${crisis}</ul>` : ""}
+    <p class="hint">After-hours callback (a volunteer calls you back, and your number is deleted afterward): planned, not live yet. ${badge("callback bridge")}</p>
   </div>`;
 }
 
@@ -110,7 +111,16 @@ export function flyerGallery(flyers, { inheritedNote = "", assetPrefix = "" } = 
     <ul class="gallery" id="gallery" data-feed="flyers">
       ${items}
     </ul>
+    ${archiveList(flyers)}
   </div>`;
+}
+
+function archiveList(flyers) {
+  const past = flyers.archive || [];
+  return `<details class="archive" id="flyer-archive">
+      <summary>Past events (${past.length} archived)</summary>
+      ${past.length ? `<ul>${past.map((f) => `<li>${esc(f.title)} · ended ${esc(f.eventEndDate)}</li>`).join("")}</ul>` : "<p class=\"hint\">Flyers move here automatically the day after their event ends.</p>"}
+    </details>`;
 }
 
 export function lightboxAndPrintSheet() {
@@ -145,13 +155,18 @@ export function chairUpload(region) {
       <select id="up-cat">
         <option>Unity / Campouts</option><option>Workshops / Speakers</option><option>Area / Service</option><option>Other</option>
       </select>
-      <label for="up-date">Event date (used to auto-archive the flyer after the event)</label>
+      <label for="up-date">Event start date</label>
       <input type="date" id="up-date">
+      <label for="up-end">Event end date (the flyer is archived automatically after this date)</label>
+      <input type="date" id="up-end">
+      <label for="up-area">City / area</label>
+      <input type="text" id="up-area" autocomplete="off">
+      <div id="up-scan" role="status" aria-live="polite"></div>
       <label class="opt"><input type="checkbox" id="up-anon"> This flyer shows no last names, no full-face photos, and no personal phone numbers or emails.</label>
       <p><button class="btn" type="submit">Preview submission</button></p>
       <p class="msg" id="up-msg" role="status"></p>
       <div id="up-preview"></div>
-      <p class="hint">Prototype: the file stays in this browser (FileReader only). Nothing is uploaded. Submission endpoint ${isHttp(region.links.flyerSubmissionEndpoint) ? "configured" : badge()}</p>
+      <p class="hint">Before preview, the file name, the details you type, and the file's metadata (PDF author/title, photo EXIF/XMP, PNG text) are checked for names, phone numbers, and emails. Photos are re-saved without metadata. Text inside the image itself can't be read, so please check it by eye. Prototype: the file stays in this browser (FileReader only). Nothing is uploaded. Submission endpoint ${isHttp(region.links.flyerSubmissionEndpoint) ? "configured" : badge()}</p>
     </form>
   </div>`;
 }
@@ -184,17 +199,24 @@ export function strugglesForm(region, { groupPrefill = "" } = {}) {
       </fieldset>
       <label for="sf-support">How can the website or regional committee better support your group?</label>
       <textarea id="sf-support"></textarea>
+      <fieldset>
+        <legend>How soon does this need attention?</legend>
+        <label class="opt"><input type="radio" name="sf-urgency" value="routine" checked> Routine (next council or committee meeting is fine)</label>
+        <label class="opt"><input type="radio" name="sf-urgency" value="soon"> Soon (within a couple of weeks)</label>
+        <label class="opt"><input type="radio" name="sf-urgency" value="urgent"> Urgent (it affects a meeting this week, such as the hotline, venue, or directory being wrong)</label>
+      </fieldset>
       <label for="sf-follow">Preferred follow-up path</label>
       <select id="sf-follow">
-        <option>Website / Internet Chair update</option>
-        <option>Regional Unity Committee connection</option>
-        <option>Hotline / H&amp;I / PI committee pointer</option>
-        <option>No reply needed, just flagging for the council</option>
+        <option value="internet-chair">Website / Internet Chair update</option>
+        <option value="unity">Regional Unity Committee connection</option>
+        <option value="hotline-hi-pi-pr">Hotline / H&amp;I / PI committee pointer</option>
+        <option value="no-reply">No reply needed, just flagging for the council</option>
       </select>
+      <p class="hint">No name, email, or phone is collected. If you want a reply, the committee replies through your group's service channel.</p>
       <p><button class="btn" type="submit">Preview submission</button></p>
       <p class="msg" id="sf-msg" role="status"></p>
       <pre class="out" id="sf-out" hidden></pre>
-      <p class="hint">Prototype: shows what would be sent to the regional feedback channel. Nothing leaves this browser. Endpoint ${isHttp(region.links.groupStrugglesEndpoint) ? "configured" : badge()}</p>
+      <p class="hint">Prototype: shows the triaged, identity-free payload that would go to the regional triage webhook. Nothing leaves this browser. Endpoint ${isHttp(region.links.groupStrugglesEndpoint) ? "configured" : badge()}</p>
     </form>
   </div>`;
 }
@@ -236,10 +258,10 @@ export function conferenceCard(region) {
 
 export function metricsCard() {
   return `<div class="card" id="metrics">
-    <h3>Privacy-first metrics (this device only)</h3>
-    <p class="hint">Counts only, split into People Seeking Recovery and People Active in the C.A. Sphere. No names, IP addresses, or third-party trackers. Nothing is sent anywhere. Reporting endpoint ${badge()}</p>
+    <h3>Zero-surveillance service metrics (this device only)</h3>
+    <p class="hint">Two segments: <strong>People Seeking Recovery</strong> and <strong>People Active in the C.A. Sphere</strong>. Only monthly counts of known actions are kept. No names, IP addresses, cookies, device IDs, timestamps, or third-party trackers. Nothing is sent anywhere. Council roll-up endpoint ${badge()}</p>
     <pre class="out" id="metrics-out"></pre>
-    <p><button class="btn secondary" type="button" id="metrics-reset">Clear counts</button></p>
+    <p><button class="btn secondary" type="button" id="metrics-export">Download monthly counts</button> <button class="btn secondary" type="button" id="metrics-reset">Clear counts</button></p>
   </div>`;
 }
 

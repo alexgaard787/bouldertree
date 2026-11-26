@@ -115,3 +115,6 @@ footer{border-top:1px solid var(--line);margin-top:2rem;padding:1.5rem 0;font-si
 [id]{scroll-margin-top:96px}
 .up-thumb{max-height:240px;border:1px solid var(--line);border-radius:8px}
 .pdf-tile{aspect-ratio:17/22;display:flex !important;align-items:center;justify-content:center;background:var(--green-tint)}
+details.archive{margin-top:1rem}
+details.archive summary{font-weight:700;cursor:pointer;min-height:44px;display:flex;align-items:center}
+#up-scan ul{margin:.25rem 0;padding-left:1.2rem}

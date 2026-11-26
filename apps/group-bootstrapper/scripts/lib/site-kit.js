@@ -40,7 +40,7 @@ export function loadFeeds(dataDir = DATA_DIR) {
 
 export function assets() {
   const r = (p) => readFileSync(join(TEMPLATES, "shared", p), "utf8").trim();
-  return { css: r("site.css"), js: r("site.js"), previewJs: r("group-preview.js") };
+  return { css: r("site.css"), js: [r("anon-scan.js"), r("triage.js"), r("site.js")].join("\n"), previewJs: r("group-preview.js") };
 }
 export const template = (name) => readFileSync(join(TEMPLATES, name, "index.template.html"), "utf8");
 

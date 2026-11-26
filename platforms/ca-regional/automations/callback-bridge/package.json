@@ -1,0 +1,11 @@
+{
+  "name": "ca-callback-bridge",
+  "version": "0.1.0",
+  "private": true,
+  "description": "SPEC + STUB ONLY: after-hours hotline callback bridge (Blueprint Webhooks #1-#2). No live telephony. No dependencies.",
+  "type": "module",
+  "scripts": {
+    "test": "node --test test/bridge.test.js"
+  },
+  "engines": { "node": ">=20" }
+}

@@ -186,6 +186,9 @@ footer{border-top:1px solid var(--line);margin-top:2rem;padding:1.5rem 0;font-si
 [id]{scroll-margin-top:96px}
 .up-thumb{max-height:240px;border:1px solid var(--line);border-radius:8px}
 .pdf-tile{aspect-ratio:17/22;display:flex !important;align-items:center;justify-content:center;background:var(--green-tint)}
+details.archive{margin-top:1rem}
+details.archive summary{font-weight:700;cursor:pointer;min-height:44px;display:flex;align-items:center}
+#up-scan ul{margin:.25rem 0;padding-left:1.2rem}
 </style>
 </head>
 <body>
@@ -218,6 +221,7 @@ footer{border-top:1px solid var(--line);margin-top:2rem;padding:1.5rem 0;font-si
     <p><strong>Regional hotline:</strong> <span class="verify">[VERIFY] regional hotline</span></p>
     <p class="hint">Only the official regional hotline is published. Never a personal number.</p>
     <ul><li>Immediate danger (U.S.): <strong>Call 911</strong></li><li>Mental-health or suicide crisis (U.S.): <strong>Call or text 988</strong></li></ul>
+    <p class="hint">After-hours callback (a volunteer calls you back, and your number is deleted afterward): planned, not live yet. <span class="verify">[VERIFY] callback bridge</span></p>
   </div>
 
   <div class="card" id="meeting">
@@ -304,6 +308,10 @@ footer{border-top:1px solid var(--line);margin-top:2rem;padding:1.5rem 0;font-si
       <li><button type="button" data-i="1" data-title="Unity event flyer" data-name="unity-flyer-placeholder.svg" data-src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22850%22%20height%3D%221100%22%20viewBox%3D%220%200%20850%201100%22%3E%3Crect%20width%3D%22850%22%20height%3D%221100%22%20fill%3D%22%23fff%22%2F%3E%3Crect%20width%3D%22850%22%20height%3D%22220%22%20fill%3D%22%23003F38%22%2F%3E%3Ctext%20x%3D%22425%22%20y%3D%22130%22%20font-family%3D%22Open%20Sans%2CArial%2Csans-serif%22%20font-size%3D%2256%22%20font-weight%3D%22700%22%20fill%3D%22%23fff%22%20text-anchor%3D%22middle%22%3EUnity%3C%2Ftext%3E%3Ctext%20x%3D%22425%22%20y%3D%22420%22%20font-family%3D%22Open%20Sans%2CArial%2Csans-serif%22%20font-size%3D%2240%22%20fill%3D%22%231A1A1A%22%20text-anchor%3D%22middle%22%3EFlyer%20placeholder%3C%2Ftext%3E%3Ctext%20x%3D%22425%22%20y%3D%22520%22%20font-family%3D%22Open%20Sans%2CArial%2Csans-serif%22%20font-size%3D%2234%22%20fill%3D%22%235C4400%22%20text-anchor%3D%22middle%22%3E%5BVERIFY%5D%20event%20details%3C%2Ftext%3E%3Ctext%20x%3D%22425%22%20y%3D%221040%22%20font-family%3D%22Open%20Sans%2CArial%2Csans-serif%22%20font-size%3D%2226%22%20fill%3D%22%234A4A4A%22%20text-anchor%3D%22middle%22%3EPLACEHOLDER%20FLYER%20%C2%B7%20C.A.%20Southwest%20Region%3C%2Ftext%3E%3C%2Fsvg%3E" data-pdf="" aria-label="Open flyer full page: Unity event flyer"><img alt="" src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22850%22%20height%3D%221100%22%20viewBox%3D%220%200%20850%201100%22%3E%3Crect%20width%3D%22850%22%20height%3D%221100%22%20fill%3D%22%23fff%22%2F%3E%3Crect%20width%3D%22850%22%20height%3D%22220%22%20fill%3D%22%23003F38%22%2F%3E%3Ctext%20x%3D%22425%22%20y%3D%22130%22%20font-family%3D%22Open%20Sans%2CArial%2Csans-serif%22%20font-size%3D%2256%22%20font-weight%3D%22700%22%20fill%3D%22%23fff%22%20text-anchor%3D%22middle%22%3EUnity%3C%2Ftext%3E%3Ctext%20x%3D%22425%22%20y%3D%22420%22%20font-family%3D%22Open%20Sans%2CArial%2Csans-serif%22%20font-size%3D%2240%22%20fill%3D%22%231A1A1A%22%20text-anchor%3D%22middle%22%3EFlyer%20placeholder%3C%2Ftext%3E%3Ctext%20x%3D%22425%22%20y%3D%22520%22%20font-family%3D%22Open%20Sans%2CArial%2Csans-serif%22%20font-size%3D%2234%22%20fill%3D%22%235C4400%22%20text-anchor%3D%22middle%22%3E%5BVERIFY%5D%20event%20details%3C%2Ftext%3E%3Ctext%20x%3D%22425%22%20y%3D%221040%22%20font-family%3D%22Open%20Sans%2CArial%2Csans-serif%22%20font-size%3D%2226%22%20fill%3D%22%234A4A4A%22%20text-anchor%3D%22middle%22%3EPLACEHOLDER%20FLYER%20%C2%B7%20C.A.%20Southwest%20Region%3C%2Ftext%3E%3C%2Fsvg%3E"><span>Unity event flyer</span></button></li>
       <li><button type="button" data-i="2" data-title="August 2027 World Conference flyer" data-name="world-conference-2027-flyer-placeholder.svg" data-src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22850%22%20height%3D%221100%22%20viewBox%3D%220%200%20850%201100%22%3E%3Crect%20width%3D%22850%22%20height%3D%221100%22%20fill%3D%22%23fff%22%2F%3E%3Crect%20width%3D%22850%22%20height%3D%22220%22%20fill%3D%22%2300594F%22%2F%3E%3Ctext%20x%3D%22425%22%20y%3D%22130%22%20font-family%3D%22Open%20Sans%2CArial%2Csans-serif%22%20font-size%3D%2256%22%20font-weight%3D%22700%22%20fill%3D%22%23fff%22%20text-anchor%3D%22middle%22%3EWorld%20Conference%202027%3C%2Ftext%3E%3Ctext%20x%3D%22425%22%20y%3D%22420%22%20font-family%3D%22Open%20Sans%2CArial%2Csans-serif%22%20font-size%3D%2240%22%20fill%3D%22%231A1A1A%22%20text-anchor%3D%22middle%22%3EReserve%20a%20room%20in%20the%20block%3C%2Ftext%3E%3Ctext%20x%3D%22425%22%20y%3D%22520%22%20font-family%3D%22Open%20Sans%2CArial%2Csans-serif%22%20font-size%3D%2234%22%20fill%3D%22%235C4400%22%20text-anchor%3D%22middle%22%3E%5BVERIFY%5D%20city%2C%20hotel%2C%20dates%3C%2Ftext%3E%3Ctext%20x%3D%22425%22%20y%3D%221040%22%20font-family%3D%22Open%20Sans%2CArial%2Csans-serif%22%20font-size%3D%2226%22%20fill%3D%22%234A4A4A%22%20text-anchor%3D%22middle%22%3EPLACEHOLDER%20FLYER%20%C2%B7%20C.A.%20Southwest%20Region%3C%2Ftext%3E%3C%2Fsvg%3E" data-pdf="" aria-label="Open flyer full page: August 2027 World Conference flyer"><img alt="" src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22850%22%20height%3D%221100%22%20viewBox%3D%220%200%20850%201100%22%3E%3Crect%20width%3D%22850%22%20height%3D%221100%22%20fill%3D%22%23fff%22%2F%3E%3Crect%20width%3D%22850%22%20height%3D%22220%22%20fill%3D%22%2300594F%22%2F%3E%3Ctext%20x%3D%22425%22%20y%3D%22130%22%20font-family%3D%22Open%20Sans%2CArial%2Csans-serif%22%20font-size%3D%2256%22%20font-weight%3D%22700%22%20fill%3D%22%23fff%22%20text-anchor%3D%22middle%22%3EWorld%20Conference%202027%3C%2Ftext%3E%3Ctext%20x%3D%22425%22%20y%3D%22420%22%20font-family%3D%22Open%20Sans%2CArial%2Csans-serif%22%20font-size%3D%2240%22%20fill%3D%22%231A1A1A%22%20text-anchor%3D%22middle%22%3EReserve%20a%20room%20in%20the%20block%3C%2Ftext%3E%3Ctext%20x%3D%22425%22%20y%3D%22520%22%20font-family%3D%22Open%20Sans%2CArial%2Csans-serif%22%20font-size%3D%2234%22%20fill%3D%22%235C4400%22%20text-anchor%3D%22middle%22%3E%5BVERIFY%5D%20city%2C%20hotel%2C%20dates%3C%2Ftext%3E%3Ctext%20x%3D%22425%22%20y%3D%221040%22%20font-family%3D%22Open%20Sans%2CArial%2Csans-serif%22%20font-size%3D%2226%22%20fill%3D%22%234A4A4A%22%20text-anchor%3D%22middle%22%3EPLACEHOLDER%20FLYER%20%C2%B7%20C.A.%20Southwest%20Region%3C%2Ftext%3E%3C%2Fsvg%3E"><span>August 2027 World Conference flyer</span></button></li>
     </ul>
+    <details class="archive" id="flyer-archive">
+      <summary>Past events (0 archived)</summary>
+      <p class="hint">Flyers move here automatically the day after their event ends.</p>
+    </details>
   </div>
   <div class="card" id="upload">
     <h3>Chairs: submit a flyer</h3>
@@ -326,17 +334,24 @@ footer{border-top:1px solid var(--line);margin-top:2rem;padding:1.5rem 0;font-si
       </fieldset>
       <label for="sf-support">How can the website or regional committee better support your group?</label>
       <textarea id="sf-support"></textarea>
+      <fieldset>
+        <legend>How soon does this need attention?</legend>
+        <label class="opt"><input type="radio" name="sf-urgency" value="routine" checked> Routine (next council or committee meeting is fine)</label>
+        <label class="opt"><input type="radio" name="sf-urgency" value="soon"> Soon (within a couple of weeks)</label>
+        <label class="opt"><input type="radio" name="sf-urgency" value="urgent"> Urgent (it affects a meeting this week, such as the hotline, venue, or directory being wrong)</label>
+      </fieldset>
       <label for="sf-follow">Preferred follow-up path</label>
       <select id="sf-follow">
-        <option>Website / Internet Chair update</option>
-        <option>Regional Unity Committee connection</option>
-        <option>Hotline / H&amp;I / PI committee pointer</option>
-        <option>No reply needed, just flagging for the council</option>
+        <option value="internet-chair">Website / Internet Chair update</option>
+        <option value="unity">Regional Unity Committee connection</option>
+        <option value="hotline-hi-pi-pr">Hotline / H&amp;I / PI committee pointer</option>
+        <option value="no-reply">No reply needed, just flagging for the council</option>
       </select>
+      <p class="hint">No name, email, or phone is collected. If you want a reply, the committee replies through your group's service channel.</p>
       <p><button class="btn" type="submit">Preview submission</button></p>
       <p class="msg" id="sf-msg" role="status"></p>
       <pre class="out" id="sf-out" hidden></pre>
-      <p class="hint">Prototype: shows what would be sent to the regional feedback channel. Nothing leaves this browser. Endpoint <span class="verify">[VERIFY]</span></p>
+      <p class="hint">Prototype: shows the triaged, identity-free payload that would go to the regional triage webhook. Nothing leaves this browser. Endpoint <span class="verify">[VERIFY]</span></p>
     </form>
   </div>
   <div class="card accent" id="conference">
@@ -366,10 +381,10 @@ footer{border-top:1px solid var(--line);margin-top:2rem;padding:1.5rem 0;font-si
     <p class="hint">The reminder uses the date you pick. If you enter check-in/check-out, your stay is added too.</p>
   </div>
   <div class="card" id="metrics">
-    <h3>Privacy-first metrics (this device only)</h3>
-    <p class="hint">Counts only, split into People Seeking Recovery and People Active in the C.A. Sphere. No names, IP addresses, or third-party trackers. Nothing is sent anywhere. Reporting endpoint <span class="verify">[VERIFY]</span></p>
+    <h3>Zero-surveillance service metrics (this device only)</h3>
+    <p class="hint">Two segments: <strong>People Seeking Recovery</strong> and <strong>People Active in the C.A. Sphere</strong>. Only monthly counts of known actions are kept. No names, IP addresses, cookies, device IDs, timestamps, or third-party trackers. Nothing is sent anywhere. Council roll-up endpoint <span class="verify">[VERIFY]</span></p>
     <pre class="out" id="metrics-out"></pre>
-    <p><button class="btn secondary" type="button" id="metrics-reset">Clear counts</button></p>
+    <p><button class="btn secondary" type="button" id="metrics-export">Download monthly counts</button> <button class="btn secondary" type="button" id="metrics-reset">Clear counts</button></p>
   </div>
 </section>
 </main>
@@ -422,6 +437,170 @@ footer{border-top:1px solid var(--line);margin-top:2rem;padding:1.5rem 0;font-si
 }
 </script>
 <script>
+/* BoulderTree anonymity scanner (Traditions Eleven & Twelve). UMD: inlined in the browser as
+ * window.btAnonScan, and require()-able in Node for tests. No network, no dependencies.
+ *   anonIssues(text)                 -> ["a phone number", ...]
+ *   scanFlyer({ name, type, bytes, typedText }) -> { block: [...], warn: [...], metadata: {...} }
+ * File scanning is heuristic: it reads filename, typed text, PDF Info / XMP metadata, JPEG EXIF/APP strings,
+ * PNG tEXt/iTXt chunks, and SVG text. It cannot read text inside images or compressed PDF page streams,
+ * so the chair's anonymity checkbox stays required. */
+(function (root, factory) {
+  var api = factory();
+  if (typeof module === "object" && module.exports) module.exports = api;
+  else root.btAnonScan = api;
+})(typeof self !== "undefined" ? self : this, function () {
+  "use strict";
+  var PHONE = /(?:\+?\d{1,3}[\s.-]?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}/;
+  var EMAIL = /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/;
+  var NON_NAME = ("a an and the of for at in on to with by or Anonymous Cocaine Fellowship Group Groups Club Line Bottom Meeting Meetings Region Regional Area Areas Southwest Central Texas Austin Houston Dallas Fort Worth San Antonio Marcos El Paso Lockhart Buda Kyle TX World Conference Council Service Services Unity Tradition Traditions Seventh Six Seven Ten Eleven Twelve Step Steps Hall Church Center Room Zoom Hybrid In-Person Online Open Closed Format Newcomer Newcomers First What Expect Happening Next Need Help Now Hotline Website Ideas Struggles Feedback Flyers Flyer News Updates August Monday Tuesday Wednesday Thursday Friday Saturday Sunday Weekly Recovery Aftercare Family Families Loved Ones Book Study Speaker Discussion Home Upholds Supported Every Displays Connects Highlights Public Information Committee Literature Business Reserve Block Calendar Day Workshop Workshops Campout Campouts Call Text Email Contact Ask Please Thanks Hi Hello Microsoft Word Adobe Acrobat Photoshop Illustrator Canva Google Docs Apple Preview Quartz PDFContext Distiller Print Save Image Untitled Document Final Draft Copy New Year Spring Summer Fall Winter Annual Regional Picnic Potluck Dance Retreat Speakers Panel Night").split(/\s+/);
+  function namePairs(t) {
+    var re = /\b([A-Z][a-z]{1,}(?:-[A-Z][a-z]+)?)\s+([A-Z][a-z]{1,}(?:-[A-Z][a-z]+)?)\b/g, m, out = [];
+    t = String(t || "");
+    while ((m = re.exec(t))) { if (NON_NAME.indexOf(m[1]) < 0 && NON_NAME.indexOf(m[2]) < 0) out.push(m[0]); re.lastIndex = m.index + m[1].length + 1; }
+    return out;
+  }
+  function anonIssues(t) {
+    var i = []; t = String(t || "");
+    if (PHONE.test(t)) i.push("a phone number");
+    if (EMAIL.test(t)) i.push("an email address");
+    var n = namePairs(t); if (n.length) i.push("what looks like a full name (" + n.join(", ") + ")");
+    return i;
+  }
+  function latin1(bytes, start, end) {
+    var s = "", e = Math.min(end, bytes.length);
+    for (var i = start; i < e; i += 8192) s += String.fromCharCode.apply(null, Array.prototype.slice.call(bytes, i, Math.min(i + 8192, e)));
+    return s;
+  }
+  function decodePdfString(s) {
+    if (/^\xFE\xFF/.test(s)) { var o = ""; for (var i = 2; i + 1 < s.length; i += 2) o += String.fromCharCode((s.charCodeAt(i) << 8) | s.charCodeAt(i + 1)); return o; }
+    return s.replace(/\\([nrtbf()\\])/g, "$1");
+  }
+  // Extract human-readable metadata strings from common flyer formats.
+  function extractMetadata(bytes, type, name) {
+    var md = {};
+    var head = latin1(bytes, 0, 2 * 1024 * 1024), tail = bytes.length > 2 * 1024 * 1024 ? latin1(bytes, bytes.length - 256 * 1024, bytes.length) : "";
+    var text = head + tail, m;
+    var isPdf = /pdf$/i.test(type) || /^%PDF/.test(head);
+    if (isPdf) {
+      ["Author", "Creator", "Producer", "Title", "Subject", "Keywords"].forEach(function (k) {
+        var re = new RegExp("/" + k + "\\s*\\(((?:\\\\.|[^\\\\)])*)\\)", "g"), vals = [];
+        while ((m = re.exec(text))) vals.push(decodePdfString(m[1]));
+        if (vals.length) md["pdf:" + k] = vals.join(" | ");
+      });
+    }
+    // XMP packets (PDF, JPEG, PNG, SVG)
+    var xmp = /<x:xmpmeta[\s\S]*?<\/x:xmpmeta>/.exec(text);
+    if (xmp) {
+      [["dc:creator", "xmp:creator"], ["dc:rights", "xmp:rights"], ["photoshop:AuthorsPosition", "xmp:authorsPosition"], ["Iptc4xmpCore:CiEmailWork", "xmp:email"], ["Iptc4xmpCore:CiTelWork", "xmp:phone"]].forEach(function (p) {
+        var re = new RegExp("<" + p[0] + "[^>]*>([\\s\\S]*?)</" + p[0] + ">"), r = re.exec(xmp[0]);
+        if (r) md[p[1]] = r[1].replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+      });
+      var attr = /(?:dc:creator|pdf:Author|xmp:Author)="([^"]+)"/.exec(xmp[0]); if (attr) md["xmp:author"] = attr[1];
+    }
+    // JPEG EXIF / APP segments: collect printable strings (Artist, Copyright, XPAuthor ASCII parts)
+    if (bytes[0] === 0xff && bytes[1] === 0xd8) {
+      var strings = [], i = 2;
+      while (i + 4 < bytes.length && bytes[i] === 0xff) {
+        var marker = bytes[i + 1], len = (bytes[i + 2] << 8) | bytes[i + 3];
+        if (marker === 0xda) break;
+        if (marker >= 0xe1 && marker <= 0xef) {
+          var seg = latin1(bytes, i + 4, i + 2 + len), sm, sre = /[\x20-\x7e]{5,}/g;
+          while ((sm = sre.exec(seg))) if (!/^(Exif|http|MM\x00|II\*|Adobe|ICC_PROFILE|xmp)/.test(sm[0])) strings.push(sm[0].trim());
+        }
+        i += 2 + len;
+      }
+      if (strings.length) md["jpeg:strings"] = strings.slice(0, 40).join(" | ");
+    }
+    // PNG tEXt / iTXt chunks
+    if (bytes[0] === 0x89 && bytes[1] === 0x50) {
+      var p = 8, chunks = [];
+      while (p + 8 < bytes.length) {
+        var clen = (bytes[p] << 24 >>> 0) + (bytes[p + 1] << 16) + (bytes[p + 2] << 8) + bytes[p + 3];
+        var ctype = latin1(bytes, p + 4, p + 8);
+        if (ctype === "tEXt" || ctype === "iTXt") chunks.push(latin1(bytes, p + 8, p + 8 + clen).replace(/\x00+/g, ": "));
+        if (ctype === "IEND") break;
+        p += 12 + clen;
+      }
+      if (chunks.length) md["png:text"] = chunks.join(" | ");
+    }
+    // SVG: all text content is visible on the flyer
+    if (/svg/i.test(type) || /\.svg$/i.test(name || "")) md["svg:text"] = head.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim().slice(0, 4000);
+    return md;
+  }
+  function scanFlyer(input) {
+    var block = [], warn = [];
+    var fname = String(input.name || "").replace(/\.[a-z0-9]+$/i, "").replace(/[_\-.]+/g, " ");
+    var f = anonIssues(fname);
+    if (f.length) (f.some(function (x) { return /phone|email/.test(x); }) ? block : warn).push("File name has " + f.join(" and ") + ". Rename the file before submitting.");
+    var t = anonIssues(input.typedText);
+    if (t.length) block.push("Typed details include " + t.join(" and ") + ".");
+    var md = input.bytes ? extractMetadata(input.bytes, input.type || "", input.name) : {};
+    Object.keys(md).forEach(function (k) {
+      var issues = anonIssues(md[k]);
+      if (!issues.length) return;
+      var hard = issues.some(function (x) { return /phone|email/.test(x); }) || /svg:text/.test(k);
+      (hard ? block : warn).push("File metadata (" + k + ") contains " + issues.join(" and ") + ".");
+    });
+    return { block: block, warn: warn, metadata: md };
+  }
+  return { anonIssues: anonIssues, namePairs: namePairs, extractMetadata: extractMetadata, scanFlyer: scanFlyer };
+});
+/* Group Struggles & Website Ideas triage (Blueprint Webhook #7). UMD: window.btTriage in the browser,
+ * require()-able in Node. Builds an identity-free payload that matches
+ * platforms/ca-regional/data/schema/struggles-payload.schema.json. */
+(function (root, factory) {
+  var api = factory();
+  if (typeof module === "object" && module.exports) module.exports = api;
+  else root.btTriage = api;
+})(typeof self !== "undefined" ? self : this, function () {
+  "use strict";
+  var ROUTES = {
+    "internet-chair": "Regional Internet Chair",
+    "unity-area-liaisons": "Regional Unity Chair & Area Liaisons",
+    "hotline-hi-pi": "Hotline / H&I / Public Information committee chair",
+    "council-service-log": "Regional Council Service Log"
+  };
+  // Topic keys come from the form ("CA Regional — Aug 2027 Conference Card & Group Feedback Form").
+  // Routing follows the Webhooks Blueprint. [VERIFY] the attendance and other mappings with the council.
+  var TOPIC_ROUTE = {
+    attendance: ["unity-area-liaisons"],
+    flyers: ["internet-chair"],
+    directory: ["internet-chair", "hotline-hi-pi"],
+    unity: ["unity-area-liaisons"],
+    other: ["council-service-log"]
+  };
+  var FOLLOW_ROUTE = {
+    "internet-chair": "internet-chair",
+    "unity": "unity-area-liaisons",
+    "hotline-hi-pi-pr": "hotline-hi-pi",
+    "no-reply": "council-service-log"
+  };
+  var URGENCY = ["routine", "soon", "urgent"];
+  function triage(input) {
+    var topics = (input.topics || []).filter(function (t) { return TOPIC_ROUTE[t]; });
+    var routes = [];
+    var push = function (r) { if (routes.indexOf(r) < 0) routes.push(r); };
+    var follow = FOLLOW_ROUTE[input.followUp] || "council-service-log";
+    if (follow !== "council-service-log") push(follow);
+    topics.forEach(function (t) { TOPIC_ROUTE[t].forEach(push); });
+    if (!routes.length) push("council-service-log");
+    var urgency = URGENCY.indexOf(input.urgency) >= 0 ? input.urgency : "routine";
+    var payload = {
+      schemaVersion: "1.0.0",
+      kind: "group-struggles",
+      scope: input.scope || "region",
+      groupOrArea: input.groupOrArea ? String(input.groupOrArea).slice(0, 120) : null,
+      topics: topics,
+      details: String(input.details || "").slice(0, 2000),
+      urgency: urgency,
+      followUp: Object.prototype.hasOwnProperty.call(FOLLOW_ROUTE, input.followUp) ? input.followUp : "no-reply",
+      routing: { primary: routes[0], all: routes, replyRequested: follow !== "council-service-log" },
+      submittedMonth: input.month || new Date().toISOString().slice(0, 7)
+    };
+    return payload;
+  }
+  return { ROUTES: ROUTES, TOPIC_ROUTE: TOPIC_ROUTE, FOLLOW_ROUTE: FOLLOW_ROUTE, URGENCY: URGENCY, triage: triage };
+});
 /* BoulderTree CA regional runtime: shared by the regional site and every group fork.
  * Reads the #site-data JSON block. No network calls. Every feature is optional
  * and only wires up when its markup is present. */
@@ -438,24 +617,42 @@ footer{border-top:1px solid var(--line);margin-top:2rem;padding:1.5rem 0;font-si
   };
   var esc = function (s) { return String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); };
 
-  /* ---------- Privacy-first segmented metrics (Seekers vs. C.A. Sphere) ---------- */
+  /* ---------- Zero-surveillance segmented metrics (Blueprint Automation #10) ----------
+   * Segments: "People Seeking Recovery" (seekers) and "People Active in the C.A. Sphere" (sphere).
+   * Only allowlisted event names are counted, in monthly buckets. No timestamps, IDs, IPs, cookies, or text. */
   var METRICS_KEY = "bt.metrics.v1", SCOPE = DATA.page === "group" ? "group:" + (DATA.slug || "") : "region";
+  var SEGMENT_LABEL = { seekers: "People Seeking Recovery", sphere: "People Active in the C.A. Sphere" };
+  var ALLOWED = {
+    seekers: ["hotline_click", "happening_next_view", "area_link_click", "area_view", "group_link_click", "first_meeting_view", "aftercare_click", "family_click", "meeting_calendar_add"],
+    sphere: ["flyer_lightbox_open", "flyer_download", "flyer_print", "flyer_upload_started", "flyer_upload_blocked", "flyer_upload_previewed", "struggles_form_submitted", "struggles_attendance", "struggles_flyers", "struggles_directory", "struggles_unity", "struggles_other", "struggles_urgent", "conf_booking_click", "conf_status_booked", "conf_status_planning", "conf_status_not-yet", "conf_calendar_add", "bootstrapper_download"]
+  };
   var metrics = {
     track: function (segment, event) {
-      if (segment !== "seekers" && segment !== "sphere") return;
-      var month = new Date().toISOString().slice(0, 7);   // monthly bucket only, no timestamps or identities
+      if (!ALLOWED[segment] || ALLOWED[segment].indexOf(event) < 0) return;   // unknown events are dropped
+      var month = new Date().toISOString().slice(0, 7);
       var all = store.get(METRICS_KEY, {});
       all[month] = all[month] || {};
       all[month][SCOPE] = all[month][SCOPE] || { seekers: {}, sphere: {} };
       var seg = all[month][SCOPE][segment];
       seg[event] = (seg[event] || 0) + 1;
       store.set(METRICS_KEY, all);
-      if (window.console) console.debug("[metrics stub]", SCOPE, segment, event);
+      if (window.console) console.debug("[metrics stub]", SCOPE, SEGMENT_LABEL[segment], event);
       renderMetrics();
+    },
+    snapshot: function () {
+      var all = store.get(METRICS_KEY, {}), out = { schemaVersion: "1.0.0", kind: "ca-service-metrics", months: {} };
+      Object.keys(all).forEach(function (month) {
+        out.months[month] = {};
+        Object.keys(all[month]).forEach(function (scope) {
+          var o = {}; o[SEGMENT_LABEL.seekers] = all[month][scope].seekers || {}; o[SEGMENT_LABEL.sphere] = all[month][scope].sphere || {};
+          out.months[month][scope] = o;
+        });
+      });
+      return out;
     }
   };
   window.caMetrics = metrics;
-  function renderMetrics() { var o = $("#metrics-out"); if (o) o.textContent = JSON.stringify(store.get(METRICS_KEY, {}), null, 2); }
+  function renderMetrics() { var o = $("#metrics-out"); if (o) o.textContent = JSON.stringify(metrics.snapshot().months, null, 2); }
   document.addEventListener("click", function (e) {
     var t = e.target.closest && e.target.closest("[data-metric]");
     if (t) { var p = t.getAttribute("data-metric").split(":"); metrics.track(p[0], p[1]); }
@@ -560,63 +757,92 @@ footer{border-top:1px solid var(--line);margin-top:2rem;padding:1.5rem 0;font-si
     window.addEventListener("afterprint", function () { document.body.classList.remove("print-flyer"); });
   }
 
-  /* ---------- Anonymity heuristics (mirror of validate-group-config.js) ---------- */
-  var PHONE = /(?:\+?\d{1,3}[\s.-]?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}/;
-  var EMAIL = /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/;
-  var NON_NAME = ("a an and the of for at in on to with by or Anonymous Cocaine Fellowship Group Groups Club Line Bottom Meeting Meetings Region Regional Area Areas Southwest Central Texas Austin Houston Dallas Fort Worth San Antonio Marcos El Paso Lockhart Buda Kyle TX World Conference Council Service Services Unity Tradition Traditions Seventh Six Seven Ten Eleven Twelve Step Steps Hall Church Center Room Zoom Hybrid In-Person Online Open Closed Format Newcomer Newcomers First What Expect Happening Next Need Help Now Hotline Website Ideas Struggles Feedback Flyers Flyer News Updates August Monday Tuesday Wednesday Thursday Friday Saturday Sunday Weekly Recovery Aftercare Family Families Loved Ones Book Study Speaker Discussion Home Upholds Supported Every Displays Connects Highlights Public Information Committee Literature Business Reserve Block Calendar Day Workshop Workshops Campout Campouts Call Text Email Contact Ask Please Thanks Hi Hello").split(/\s+/);
-  function namePairs(t) {
-    var re = /\b([A-Z][a-z]{1,}(?:-[A-Z][a-z]+)?)\s+([A-Z][a-z]{1,}(?:-[A-Z][a-z]+)?)\b/g, m, out = [];
-    while ((m = re.exec(t))) { if (NON_NAME.indexOf(m[1]) < 0 && NON_NAME.indexOf(m[2]) < 0) out.push(m[0]); re.lastIndex = m.index + m[1].length + 1; }
-    return out;
-  }
-  function anonIssues(t) {
-    var i = []; if (PHONE.test(t)) i.push("a phone number"); if (EMAIL.test(t)) i.push("an email address");
-    var n = namePairs(t); if (n.length) i.push("what looks like a full name (" + n.join(", ") + ")"); return i;
-  }
-  window.btAnon = { anonIssues: anonIssues, namePairs: namePairs };
+  /* ---------- Anonymity heuristics: shared scanner (templates/shared/anon-scan.js) ---------- */
+  var scan = window.btAnonScan;
+  var anonIssues = scan.anonIssues;
+  window.btAnon = scan;
 
-  /* ---------- Chair flyer upload preview (FileReader only) ---------- */
+  /* ---------- Chair flyer upload: anonymity check BEFORE preview (Blueprint Automation #5) ---------- */
   if ($("#upload-form")) {
-    var upFile = null;
+    var upFile = null, upScan = null;
+    var showScan = function (r) {
+      var box = $("#up-scan"), html = "";
+      if (r.block.length) html += '<p class="msg err">Blocked until fixed:</p><ul>' + r.block.map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("") + "</ul>";
+      if (r.warn.length) html += '<p class="msg">Please double-check:</p><ul>' + r.warn.map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("") + "</ul>";
+      if (!r.block.length && !r.warn.length) html = '<p class="msg ok">No names, phone numbers, or emails found in the file name, details, or file metadata.</p>';
+      box.innerHTML = html;
+    };
+    var typed = function () { return [$("#up-title").value, $("#up-area").value].join(" "); };
+    var stripMetadata = function (dataUrl, cb) {
+      // Re-encode raster images through a canvas: drops EXIF/XMP/IPTC (camera, author, GPS).
+      var img = new Image();
+      img.onload = function () {
+        try { var c = document.createElement("canvas"); c.width = img.naturalWidth; c.height = img.naturalHeight; c.getContext("2d").drawImage(img, 0, 0); cb(c.toDataURL("image/png"), true); }
+        catch (e) { cb(dataUrl, false); }
+      };
+      img.onerror = function () { cb(dataUrl, false); };
+      img.src = dataUrl;
+    };
     $("#up-file").addEventListener("change", function () {
-      var f = this.files && this.files[0]; upFile = null; $("#up-preview").innerHTML = "";
+      var f = this.files && this.files[0]; upFile = null; upScan = null; $("#up-preview").innerHTML = ""; $("#up-scan").innerHTML = ""; $("#up-msg").textContent = "";
       if (!f) return;
-      if (!/^image\/|^application\/pdf$/.test(f.type)) { $("#up-msg").className = "msg err"; $("#up-msg").textContent = "Please choose an image or PDF."; return; }
+      if (!/^image\/(png|jpeg|gif|webp|svg\+xml)$|^application\/pdf$/.test(f.type)) { $("#up-msg").className = "msg err"; $("#up-msg").textContent = "Please choose a PNG, JPG, GIF, WebP, SVG, or PDF."; return; }
       if (f.size > 15 * 1024 * 1024) { $("#up-msg").className = "msg err"; $("#up-msg").textContent = "File is over 15 MB."; return; }
       metrics.track("sphere", "flyer_upload_started");
-      var r = new FileReader();
-      r.onload = function () {
-        upFile = { src: r.result, pdf: f.type === "application/pdf", name: f.name };
-        $("#up-preview").innerHTML = upFile.pdf ? '<p class="hint">PDF ready: ' + esc(f.name) + "</p>" : '<img alt="Preview of your flyer" src="' + r.result + '" class="up-thumb">';
+      var rb = new FileReader();
+      rb.onload = function () {
+        var bytes = new Uint8Array(rb.result);
+        upScan = scan.scanFlyer({ name: f.name, type: f.type, bytes: bytes, typedText: typed() });
+        showScan(upScan);
+        if (upScan.block.length) { metrics.track("sphere", "flyer_upload_blocked"); return; }   // no preview until fixed
+        var rd = new FileReader();
+        rd.onload = function () {
+          var raster = /^image\/(png|jpeg|webp)$/.test(f.type);
+          var done = function (src, stripped) {
+            upFile = { src: src, pdf: f.type === "application/pdf", name: f.name.replace(/\.[a-z0-9]+$/i, "") + (stripped ? ".png" : f.name.match(/\.[a-z0-9]+$/i)[0]), stripped: stripped };
+            $("#up-preview").innerHTML = upFile.pdf ? '<p class="hint">PDF ready: ' + esc(f.name) + "</p>" : '<img alt="Preview of your flyer" src="' + src + '" class="up-thumb">' + (stripped ? '<p class="hint">Photo metadata removed.</p>' : "");
+          };
+          if (raster) stripMetadata(rd.result, done); else done(rd.result, false);
+        };
+        rd.readAsDataURL(f);
       };
-      r.readAsDataURL(f);
+      rb.readAsArrayBuffer(f);
     });
     $("#upload-form").addEventListener("submit", function (e) {
       e.preventDefault(); var m = $("#up-msg"), title = $("#up-title").value.trim(), probs = [];
-      if (!upFile) probs.push("choose a file");
+      var t = anonIssues(typed());
+      if (t.length) probs.push("remove " + t.join(" and ") + " from the details");
+      if (upScan && upScan.block.length) probs.push("fix the file issues listed above");
+      if (!upFile && !(upScan && upScan.block.length)) probs.push("choose a file");
       if (!title) probs.push("add an event title");
+      if (!$("#up-end").value) probs.push("add the event end date (used for automatic archiving)");
       if (!$("#up-anon").checked) probs.push("confirm the anonymity checklist");
-      var a = anonIssues(title); if (a.length) probs.push("remove " + a.join(" and ") + " from the title");
-      if (probs.length) { m.className = "msg err"; m.textContent = "Before submitting, please " + probs.join("; ") + "."; return; }
+      if (probs.length) { m.className = "msg err"; m.textContent = "Before submitting, please " + probs.join("; ") + "."; if (t.length) metrics.track("sphere", "flyer_upload_blocked"); return; }
       var li = document.createElement("li");
       li.innerHTML = '<button type="button" data-title="' + esc(title + " (your preview)") + '" data-name="' + esc(upFile.name) + '" data-src="' + esc(upFile.src) + '" data-pdf="' + (upFile.pdf ? "1" : "") + '" aria-label="Open flyer full page: ' + esc(title) + '">' + (upFile.pdf ? '<span class="pdf-tile">PDF</span>' : '<img alt="" src="' + esc(upFile.src) + '">') + "<span>" + esc(title) + " (your preview)</span></button>";
       $("#gallery").appendChild(li); metrics.track("sphere", "flyer_upload_previewed");
-      m.className = "msg ok"; m.textContent = "Preview added to the flyer gallery (this browser only). Nothing was uploaded. Endpoint [VERIFY].";
+      m.className = "msg ok"; m.textContent = "Preview added to the flyer gallery (this browser only). Category: " + $("#up-cat").value + ". It would be archived after " + $("#up-end").value + ". Nothing was uploaded. Endpoint [VERIFY].";
     });
   }
 
-  /* ---------- Group Struggles & Website Ideas (local preview only) ---------- */
+  /* ---------- Group Struggles & Website Ideas: triage router (Blueprint Webhook #7), local preview only ---------- */
   if ($("#struggles-form")) {
     $("#struggles-form").addEventListener("submit", function (e) {
       e.preventDefault();
-      var checked = $$('input[name="sf-topic[]"]:checked');
-      var payload = { scope: SCOPE, groupOrArea: $("#sf-group").value.trim() || null, workingThrough: checked.map(function (c) { return c.value; }), howWeCanHelp: $("#sf-support").value.trim(), followUp: $("#sf-follow").value };
-      var issues = anonIssues((payload.groupOrArea || "") + " " + payload.howWeCanHelp), m = $("#sf-msg");
-      if (!checked.length && !payload.howWeCanHelp) { m.className = "msg err"; m.textContent = "Pick at least one topic or write a note."; return; }
+      var checked = $$('input[name="sf-topic[]"]:checked'), urg = document.querySelector('input[name="sf-urgency"]:checked');
+      var payload = window.btTriage.triage({
+        scope: SCOPE, groupOrArea: $("#sf-group").value.trim() || null,
+        topics: checked.map(function (c) { return c.getAttribute("data-key"); }),
+        details: $("#sf-support").value.trim(), urgency: urg ? urg.value : "routine", followUp: $("#sf-follow").value
+      });
+      var issues = anonIssues((payload.groupOrArea || "") + " " + payload.details), m = $("#sf-msg");
+      if (!payload.topics.length && !payload.details) { m.className = "msg err"; m.textContent = "Pick at least one topic or write a note."; return; }
       if (issues.length) { m.className = "msg err"; m.textContent = "To protect anonymity, please remove " + issues.join(" and ") + "."; return; }
-      checked.forEach(function (c) { metrics.track("sphere", "struggles_" + c.getAttribute("data-key")); });
+      payload.topics.forEach(function (k) { metrics.track("sphere", "struggles_" + k); });
+      if (payload.urgency === "urgent") metrics.track("sphere", "struggles_urgent");
       metrics.track("sphere", "struggles_form_submitted");
-      m.className = "msg ok"; m.textContent = "Preview only. This is what would be sent once the endpoint is set up [VERIFY]:";
+      var R = window.btTriage.ROUTES;
+      m.className = "msg ok"; m.textContent = "Preview only. This would be routed to " + payload.routing.all.map(function (r) { return R[r]; }).join(", ") + " (" + payload.urgency + "). Endpoint [VERIFY]. Payload:";
       var o = $("#sf-out"); o.hidden = false; o.textContent = JSON.stringify(payload, null, 2);
     });
   }
@@ -652,6 +878,7 @@ footer{border-top:1px solid var(--line);margin-top:2rem;padding:1.5rem 0;font-si
     });
   }
 
+  if ($("#metrics-export")) $("#metrics-export").addEventListener("click", function () { download("ca-service-metrics.json", "application/json", JSON.stringify(metrics.snapshot(), null, 2)); });
   renderMetrics();
 })();
 </script>

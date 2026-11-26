@@ -14,24 +14,42 @@
   };
   var esc = function (s) { return String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); };
 
-  /* ---------- Privacy-first segmented metrics (Seekers vs. C.A. Sphere) ---------- */
+  /* ---------- Zero-surveillance segmented metrics (Blueprint Automation #10) ----------
+   * Segments: "People Seeking Recovery" (seekers) and "People Active in the C.A. Sphere" (sphere).
+   * Only allowlisted event names are counted, in monthly buckets. No timestamps, IDs, IPs, cookies, or text. */
   var METRICS_KEY = "bt.metrics.v1", SCOPE = DATA.page === "group" ? "group:" + (DATA.slug || "") : "region";
+  var SEGMENT_LABEL = { seekers: "People Seeking Recovery", sphere: "People Active in the C.A. Sphere" };
+  var ALLOWED = {
+    seekers: ["hotline_click", "happening_next_view", "area_link_click", "area_view", "group_link_click", "first_meeting_view", "aftercare_click", "family_click", "meeting_calendar_add"],
+    sphere: ["flyer_lightbox_open", "flyer_download", "flyer_print", "flyer_upload_started", "flyer_upload_blocked", "flyer_upload_previewed", "struggles_form_submitted", "struggles_attendance", "struggles_flyers", "struggles_directory", "struggles_unity", "struggles_other", "struggles_urgent", "conf_booking_click", "conf_status_booked", "conf_status_planning", "conf_status_not-yet", "conf_calendar_add", "bootstrapper_download"]
+  };
   var metrics = {
     track: function (segment, event) {
-      if (segment !== "seekers" && segment !== "sphere") return;
-      var month = new Date().toISOString().slice(0, 7);   // monthly bucket only, no timestamps or identities
+      if (!ALLOWED[segment] || ALLOWED[segment].indexOf(event) < 0) return;   // unknown events are dropped
+      var month = new Date().toISOString().slice(0, 7);
       var all = store.get(METRICS_KEY, {});
       all[month] = all[month] || {};
       all[month][SCOPE] = all[month][SCOPE] || { seekers: {}, sphere: {} };
       var seg = all[month][SCOPE][segment];
       seg[event] = (seg[event] || 0) + 1;
       store.set(METRICS_KEY, all);
-      if (window.console) console.debug("[metrics stub]", SCOPE, segment, event);
+      if (window.console) console.debug("[metrics stub]", SCOPE, SEGMENT_LABEL[segment], event);
       renderMetrics();
+    },
+    snapshot: function () {
+      var all = store.get(METRICS_KEY, {}), out = { schemaVersion: "1.0.0", kind: "ca-service-metrics", months: {} };
+      Object.keys(all).forEach(function (month) {
+        out.months[month] = {};
+        Object.keys(all[month]).forEach(function (scope) {
+          var o = {}; o[SEGMENT_LABEL.seekers] = all[month][scope].seekers || {}; o[SEGMENT_LABEL.sphere] = all[month][scope].sphere || {};
+          out.months[month][scope] = o;
+        });
+      });
+      return out;
     }
   };
   window.caMetrics = metrics;
-  function renderMetrics() { var o = $("#metrics-out"); if (o) o.textContent = JSON.stringify(store.get(METRICS_KEY, {}), null, 2); }
+  function renderMetrics() { var o = $("#metrics-out"); if (o) o.textContent = JSON.stringify(metrics.snapshot().months, null, 2); }
   document.addEventListener("click", function (e) {
     var t = e.target.closest && e.target.closest("[data-metric]");
     if (t) { var p = t.getAttribute("data-metric").split(":"); metrics.track(p[0], p[1]); }
@@ -136,63 +154,92 @@
     window.addEventListener("afterprint", function () { document.body.classList.remove("print-flyer"); });
   }
 
-  /* ---------- Anonymity heuristics (mirror of validate-group-config.js) ---------- */
-  var PHONE = /(?:\+?\d{1,3}[\s.-]?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}/;
-  var EMAIL = /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/;
-  var NON_NAME = ("a an and the of for at in on to with by or Anonymous Cocaine Fellowship Group Groups Club Line Bottom Meeting Meetings Region Regional Area Areas Southwest Central Texas Austin Houston Dallas Fort Worth San Antonio Marcos El Paso Lockhart Buda Kyle TX World Conference Council Service Services Unity Tradition Traditions Seventh Six Seven Ten Eleven Twelve Step Steps Hall Church Center Room Zoom Hybrid In-Person Online Open Closed Format Newcomer Newcomers First What Expect Happening Next Need Help Now Hotline Website Ideas Struggles Feedback Flyers Flyer News Updates August Monday Tuesday Wednesday Thursday Friday Saturday Sunday Weekly Recovery Aftercare Family Families Loved Ones Book Study Speaker Discussion Home Upholds Supported Every Displays Connects Highlights Public Information Committee Literature Business Reserve Block Calendar Day Workshop Workshops Campout Campouts Call Text Email Contact Ask Please Thanks Hi Hello").split(/\s+/);
-  function namePairs(t) {
-    var re = /\b([A-Z][a-z]{1,}(?:-[A-Z][a-z]+)?)\s+([A-Z][a-z]{1,}(?:-[A-Z][a-z]+)?)\b/g, m, out = [];
-    while ((m = re.exec(t))) { if (NON_NAME.indexOf(m[1]) < 0 && NON_NAME.indexOf(m[2]) < 0) out.push(m[0]); re.lastIndex = m.index + m[1].length + 1; }
-    return out;
-  }
-  function anonIssues(t) {
-    var i = []; if (PHONE.test(t)) i.push("a phone number"); if (EMAIL.test(t)) i.push("an email address");
-    var n = namePairs(t); if (n.length) i.push("what looks like a full name (" + n.join(", ") + ")"); return i;
-  }
-  window.btAnon = { anonIssues: anonIssues, namePairs: namePairs };
+  /* ---------- Anonymity heuristics: shared scanner (templates/shared/anon-scan.js) ---------- */
+  var scan = window.btAnonScan;
+  var anonIssues = scan.anonIssues;
+  window.btAnon = scan;
 
-  /* ---------- Chair flyer upload preview (FileReader only) ---------- */
+  /* ---------- Chair flyer upload: anonymity check BEFORE preview (Blueprint Automation #5) ---------- */
   if ($("#upload-form")) {
-    var upFile = null;
+    var upFile = null, upScan = null;
+    var showScan = function (r) {
+      var box = $("#up-scan"), html = "";
+      if (r.block.length) html += '<p class="msg err">Blocked until fixed:</p><ul>' + r.block.map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("") + "</ul>";
+      if (r.warn.length) html += '<p class="msg">Please double-check:</p><ul>' + r.warn.map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("") + "</ul>";
+      if (!r.block.length && !r.warn.length) html = '<p class="msg ok">No names, phone numbers, or emails found in the file name, details, or file metadata.</p>';
+      box.innerHTML = html;
+    };
+    var typed = function () { return [$("#up-title").value, $("#up-area").value].join(" "); };
+    var stripMetadata = function (dataUrl, cb) {
+      // Re-encode raster images through a canvas: drops EXIF/XMP/IPTC (camera, author, GPS).
+      var img = new Image();
+      img.onload = function () {
+        try { var c = document.createElement("canvas"); c.width = img.naturalWidth; c.height = img.naturalHeight; c.getContext("2d").drawImage(img, 0, 0); cb(c.toDataURL("image/png"), true); }
+        catch (e) { cb(dataUrl, false); }
+      };
+      img.onerror = function () { cb(dataUrl, false); };
+      img.src = dataUrl;
+    };
     $("#up-file").addEventListener("change", function () {
-      var f = this.files && this.files[0]; upFile = null; $("#up-preview").innerHTML = "";
+      var f = this.files && this.files[0]; upFile = null; upScan = null; $("#up-preview").innerHTML = ""; $("#up-scan").innerHTML = ""; $("#up-msg").textContent = "";
       if (!f) return;
-      if (!/^image\/|^application\/pdf$/.test(f.type)) { $("#up-msg").className = "msg err"; $("#up-msg").textContent = "Please choose an image or PDF."; return; }
+      if (!/^image\/(png|jpeg|gif|webp|svg\+xml)$|^application\/pdf$/.test(f.type)) { $("#up-msg").className = "msg err"; $("#up-msg").textContent = "Please choose a PNG, JPG, GIF, WebP, SVG, or PDF."; return; }
       if (f.size > 15 * 1024 * 1024) { $("#up-msg").className = "msg err"; $("#up-msg").textContent = "File is over 15 MB."; return; }
       metrics.track("sphere", "flyer_upload_started");
-      var r = new FileReader();
-      r.onload = function () {
-        upFile = { src: r.result, pdf: f.type === "application/pdf", name: f.name };
-        $("#up-preview").innerHTML = upFile.pdf ? '<p class="hint">PDF ready: ' + esc(f.name) + "</p>" : '<img alt="Preview of your flyer" src="' + r.result + '" class="up-thumb">';
+      var rb = new FileReader();
+      rb.onload = function () {
+        var bytes = new Uint8Array(rb.result);
+        upScan = scan.scanFlyer({ name: f.name, type: f.type, bytes: bytes, typedText: typed() });
+        showScan(upScan);
+        if (upScan.block.length) { metrics.track("sphere", "flyer_upload_blocked"); return; }   // no preview until fixed
+        var rd = new FileReader();
+        rd.onload = function () {
+          var raster = /^image\/(png|jpeg|webp)$/.test(f.type);
+          var done = function (src, stripped) {
+            upFile = { src: src, pdf: f.type === "application/pdf", name: f.name.replace(/\.[a-z0-9]+$/i, "") + (stripped ? ".png" : f.name.match(/\.[a-z0-9]+$/i)[0]), stripped: stripped };
+            $("#up-preview").innerHTML = upFile.pdf ? '<p class="hint">PDF ready: ' + esc(f.name) + "</p>" : '<img alt="Preview of your flyer" src="' + src + '" class="up-thumb">' + (stripped ? '<p class="hint">Photo metadata removed.</p>' : "");
+          };
+          if (raster) stripMetadata(rd.result, done); else done(rd.result, false);
+        };
+        rd.readAsDataURL(f);
       };
-      r.readAsDataURL(f);
+      rb.readAsArrayBuffer(f);
     });
     $("#upload-form").addEventListener("submit", function (e) {
       e.preventDefault(); var m = $("#up-msg"), title = $("#up-title").value.trim(), probs = [];
-      if (!upFile) probs.push("choose a file");
+      var t = anonIssues(typed());
+      if (t.length) probs.push("remove " + t.join(" and ") + " from the details");
+      if (upScan && upScan.block.length) probs.push("fix the file issues listed above");
+      if (!upFile && !(upScan && upScan.block.length)) probs.push("choose a file");
       if (!title) probs.push("add an event title");
+      if (!$("#up-end").value) probs.push("add the event end date (used for automatic archiving)");
       if (!$("#up-anon").checked) probs.push("confirm the anonymity checklist");
-      var a = anonIssues(title); if (a.length) probs.push("remove " + a.join(" and ") + " from the title");
-      if (probs.length) { m.className = "msg err"; m.textContent = "Before submitting, please " + probs.join("; ") + "."; return; }
+      if (probs.length) { m.className = "msg err"; m.textContent = "Before submitting, please " + probs.join("; ") + "."; if (t.length) metrics.track("sphere", "flyer_upload_blocked"); return; }
       var li = document.createElement("li");
       li.innerHTML = '<button type="button" data-title="' + esc(title + " (your preview)") + '" data-name="' + esc(upFile.name) + '" data-src="' + esc(upFile.src) + '" data-pdf="' + (upFile.pdf ? "1" : "") + '" aria-label="Open flyer full page: ' + esc(title) + '">' + (upFile.pdf ? '<span class="pdf-tile">PDF</span>' : '<img alt="" src="' + esc(upFile.src) + '">') + "<span>" + esc(title) + " (your preview)</span></button>";
       $("#gallery").appendChild(li); metrics.track("sphere", "flyer_upload_previewed");
-      m.className = "msg ok"; m.textContent = "Preview added to the flyer gallery (this browser only). Nothing was uploaded. Endpoint [VERIFY].";
+      m.className = "msg ok"; m.textContent = "Preview added to the flyer gallery (this browser only). Category: " + $("#up-cat").value + ". It would be archived after " + $("#up-end").value + ". Nothing was uploaded. Endpoint [VERIFY].";
     });
   }
 
-  /* ---------- Group Struggles & Website Ideas (local preview only) ---------- */
+  /* ---------- Group Struggles & Website Ideas: triage router (Blueprint Webhook #7), local preview only ---------- */
   if ($("#struggles-form")) {
     $("#struggles-form").addEventListener("submit", function (e) {
       e.preventDefault();
-      var checked = $$('input[name="sf-topic[]"]:checked');
-      var payload = { scope: SCOPE, groupOrArea: $("#sf-group").value.trim() || null, workingThrough: checked.map(function (c) { return c.value; }), howWeCanHelp: $("#sf-support").value.trim(), followUp: $("#sf-follow").value };
-      var issues = anonIssues((payload.groupOrArea || "") + " " + payload.howWeCanHelp), m = $("#sf-msg");
-      if (!checked.length && !payload.howWeCanHelp) { m.className = "msg err"; m.textContent = "Pick at least one topic or write a note."; return; }
+      var checked = $$('input[name="sf-topic[]"]:checked'), urg = document.querySelector('input[name="sf-urgency"]:checked');
+      var payload = window.btTriage.triage({
+        scope: SCOPE, groupOrArea: $("#sf-group").value.trim() || null,
+        topics: checked.map(function (c) { return c.getAttribute("data-key"); }),
+        details: $("#sf-support").value.trim(), urgency: urg ? urg.value : "routine", followUp: $("#sf-follow").value
+      });
+      var issues = anonIssues((payload.groupOrArea || "") + " " + payload.details), m = $("#sf-msg");
+      if (!payload.topics.length && !payload.details) { m.className = "msg err"; m.textContent = "Pick at least one topic or write a note."; return; }
       if (issues.length) { m.className = "msg err"; m.textContent = "To protect anonymity, please remove " + issues.join(" and ") + "."; return; }
-      checked.forEach(function (c) { metrics.track("sphere", "struggles_" + c.getAttribute("data-key")); });
+      payload.topics.forEach(function (k) { metrics.track("sphere", "struggles_" + k); });
+      if (payload.urgency === "urgent") metrics.track("sphere", "struggles_urgent");
       metrics.track("sphere", "struggles_form_submitted");
-      m.className = "msg ok"; m.textContent = "Preview only. This is what would be sent once the endpoint is set up [VERIFY]:";
+      var R = window.btTriage.ROUTES;
+      m.className = "msg ok"; m.textContent = "Preview only. This would be routed to " + payload.routing.all.map(function (r) { return R[r]; }).join(", ") + " (" + payload.urgency + "). Endpoint [VERIFY]. Payload:";
       var o = $("#sf-out"); o.hidden = false; o.textContent = JSON.stringify(payload, null, 2);
     });
   }
@@ -228,5 +275,6 @@
     });
   }
 
+  if ($("#metrics-export")) $("#metrics-export").addEventListener("click", function () { download("ca-service-metrics.json", "application/json", JSON.stringify(metrics.snapshot(), null, 2)); });
   renderMetrics();
 })();

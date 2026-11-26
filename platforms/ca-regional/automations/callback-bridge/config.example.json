@@ -1,0 +1,17 @@
+{
+  "$comment": "EXAMPLE ONLY. Every number, provider, and hour below is [VERIFY]. Never commit a real phone number or credential; real values live only in the hosting platform's secret store.",
+  "live": false,
+  "timezone": "[VERIFY]",
+  "afterHoursWindow": { "start": "[VERIFY]", "end": "[VERIFY]" },
+  "telephonyProvider": "[VERIFY]",
+  "smsProvider": "[VERIFY]",
+  "timing": { "ackDeadlineMs": 2000, "smsAtMs": 5000, "voiceBridgeAtMs": 15000, "voiceBridgeDeadlineMs": 30000 },
+  "transientTtlMs": 3600000,
+  "tiers": [
+    { "tier": 1, "label": "Primary hotline / volunteer rotation", "fromMs": 0, "toMs": 45000, "target": "[VERIFY]" },
+    { "tier": 2, "label": "Secondary area volunteer (masked SMS: first name and city only)", "fromMs": 45000, "toMs": 90000, "target": "[VERIFY]" },
+    { "tier": 3, "label": "24/7 backup line + SMS with nearest Happening Next meeting and First Meeting guide", "fromMs": 90000, "toMs": null, "target": "[VERIFY]" }
+  ],
+  "firstMeetingGuideUrl": "[VERIFY]",
+  "happeningNextUrl": "[VERIFY]"
+}
