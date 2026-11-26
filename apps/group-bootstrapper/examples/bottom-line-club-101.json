@@ -1,0 +1,72 @@
+{
+  "isSample": true,
+  "schemaVersion": "1.0.0",
+  "slug": "bottom-line-club-101",
+  "groupName": "Bottom Line",
+  "venueLabel": "Club 101",
+  "venueAddress": "[VERIFY]",
+  "cadence": "[VERIFY]",
+  "welcomeCopy": "Open format; all people are welcome; no pressure to speak; welcoming newcomers and anyone looking to make Bottom Line their home group.",
+  "seventhTraditionNote": "Supported by the 7th Tradition; self-supporting.",
+  "traditionsNote": "Upholds Traditions Six, Seven, Ten, Eleven, and Twelve (attraction rather than promotion, clear separation from outside commercial enterprises, and anonymity protection across public pages, flyers, and forms).",
+  "meetings": [
+    {
+      "day": "[VERIFY]",
+      "time": "[VERIFY]",
+      "timezone": "[VERIFY]",
+      "format": "open",
+      "attendance": "[VERIFY]",
+      "notes": "Drive docs describe this as a sample (Club 101, Tuesdays 7:30 p.m., hybrid). Schedule, timezone, and hybrid/Zoom details remain [VERIFY] until confirmed."
+    }
+  ],
+  "groupServiceEmail": "[VERIFY]",
+  "groupServiceUrl": "[VERIFY]",
+  "links": {
+    "website": "[VERIFY]",
+    "onlineMeetingUrl": "[VERIFY]",
+    "regionalSite": "[VERIFY]",
+    "flyerViewer": "[VERIFY]",
+    "flyerSubmission": "[VERIFY]",
+    "groupStrugglesForm": "[VERIFY]",
+    "worldConferenceBooking": "[VERIFY]",
+    "firstMeetingGuide": "[VERIFY]"
+  },
+  "sections": {
+    "happeningNext": {
+      "enabled": true,
+      "title": "Happening Next",
+      "summary": "[VERIFY]",
+      "url": "[VERIFY]"
+    },
+    "firstMeeting": {
+      "enabled": true,
+      "title": "First Meeting? What to Expect",
+      "summary": "The only requirement is a desire to stop using. There are no dues or fees, and newcomers do not have to speak or have everything figured out on day one.",
+      "url": "[VERIFY]"
+    },
+    "regionalNewsAndFlyers": {
+      "enabled": true,
+      "title": "Regional Council News, Flyers & Updates",
+      "summary": "Displays current regional council announcements and event flyers with a full-page/lightbox viewer, direct download, and print-ready layout.",
+      "url": "[VERIFY]"
+    },
+    "worldConference2027": {
+      "enabled": true,
+      "title": "August 2027 World Conference",
+      "summary": "[VERIFY]",
+      "url": "[VERIFY]"
+    },
+    "groupStrugglesForm": {
+      "enabled": true,
+      "title": "Group Struggles & Website Feedback",
+      "summary": "Connects group leaders and members to the regional feedback channel for meeting support, flyer/print hurdles, and website improvements.",
+      "url": "[VERIFY]"
+    },
+    "regionalHotline": {
+      "enabled": true,
+      "title": "Need Help Now",
+      "summary": "[VERIFY]",
+      "url": "[VERIFY]"
+    }
+  }
+}
