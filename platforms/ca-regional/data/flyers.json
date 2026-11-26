@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "1.0.0",
+  "isSample": true,
+  "items": [
+    {
+      "id": "regional-council-flyer-placeholder",
+      "source": "regional-council",
+      "title": "Regional Council flyer",
+      "category": "Area / Service",
+      "eventDate": "[VERIFY]",
+      "archiveAfter": "[VERIFY]",
+      "placeholder": { "heading": "Regional Council", "subheading": "Flyer placeholder", "note": "[VERIFY] event details", "color": "#00594F" },
+      "alt": "Placeholder flyer for a Regional Council announcement"
+    },
+    {
+      "id": "unity-flyer-placeholder",
+      "source": "regional-council",
+      "title": "Unity event flyer",
+      "category": "Unity / Campouts",
+      "eventDate": "[VERIFY]",
+      "archiveAfter": "[VERIFY]",
+      "placeholder": { "heading": "Unity", "subheading": "Flyer placeholder", "note": "[VERIFY] event details", "color": "#003F38" },
+      "alt": "Placeholder flyer for a regional Unity event"
+    },
+    {
+      "id": "world-conference-2027-flyer-placeholder",
+      "source": "world-council",
+      "title": "August 2027 World Conference flyer",
+      "category": "Area / Service",
+      "eventDate": "[VERIFY]",
+      "archiveAfter": "[VERIFY]",
+      "placeholder": { "heading": "World Conference 2027", "subheading": "Reserve a room in the block", "note": "[VERIFY] city, hotel, dates", "color": "#00594F" },
+      "alt": "Placeholder flyer for the August 2027 World Conference"
+    }
+  ]
+}

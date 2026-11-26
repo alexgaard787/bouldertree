@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/alexgaard787/bouldertree/main/platforms/ca-regional/data/schema/region.schema.json",
+  "title": "CA regional site data (region.json)",
+  "description": "Regional identity, hotline pointer, links, Aug 2027 conference facts, and the area list for hub-and-spoke routing. Inherited by every group fork. Unconfirmed facts must be '[VERIFY]'. No personal contacts.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "isSample", "fellowship", "regionName", "councilName", "shortName", "hotline", "links", "conference2027", "areas"],
+  "properties": {
+    "schemaVersion": { "const": "1.0.0" },
+    "isSample": { "type": "boolean" },
+    "fellowship": { "$ref": "common.defs.json#/$defs/safeText" },
+    "regionName": { "$ref": "common.defs.json#/$defs/safeText" },
+    "councilName": { "$ref": "common.defs.json#/$defs/safeText" },
+    "shortName": { "$ref": "common.defs.json#/$defs/safeText" },
+    "regionBoundaryNote": { "$ref": "common.defs.json#/$defs/verifiableText" },
+    "hotline": {
+      "type": "object", "additionalProperties": false, "required": ["label", "number", "helpPageUrl"],
+      "properties": {
+        "label": { "$ref": "common.defs.json#/$defs/safeText" },
+        "number": { "anyOf": [ { "$ref": "common.defs.json#/$defs/verify" }, { "type": "string", "pattern": "^\\+?1?[\\s.\\-]?\\(?\\d{3}\\)?[\\s.\\-]?\\d{3}[\\s.\\-]?\\d{4}$" } ], "description": "Official regional hotline only." },
+        "helpPageUrl": { "$ref": "common.defs.json#/$defs/verifiableUrl" },
+        "note": { "$ref": "common.defs.json#/$defs/safeText" }
+      }
+    },
+    "crisisPointers": {
+      "type": "array",
+      "items": { "type": "object", "additionalProperties": false, "required": ["label", "action"],
+        "properties": { "label": { "type": "string" }, "action": { "type": "string", "pattern": "^(Call|Call or text|Text) (911|988)$" } } }
+    },
+    "links": {
+      "type": "object", "additionalProperties": false,
+      "properties": {
+        "regionalSite": { "$ref": "common.defs.json#/$defs/verifiableUrl" },
+        "worldServices": { "$ref": "common.defs.json#/$defs/verifiableUrl" },
+        "meetingFinder": { "$ref": "common.defs.json#/$defs/verifiableUrl" },
+        "flyerSubmissionEndpoint": { "$ref": "common.defs.json#/$defs/verifiableUrl" },
+        "groupStrugglesEndpoint": { "$ref": "common.defs.json#/$defs/verifiableUrl" },
+        "familyResources": { "$ref": "common.defs.json#/$defs/verifiableUrl" }
+      }
+    },
+    "conference2027": {
+      "type": "object", "additionalProperties": false, "required": ["enabled", "title", "monthYear", "noUpfrontPayment", "bookingUrl"],
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "title": { "$ref": "common.defs.json#/$defs/safeText" },
+        "monthYear": { "$ref": "common.defs.json#/$defs/verifiableText" },
+        "noUpfrontPayment": { "$ref": "common.defs.json#/$defs/verifiableBoolean" },
+        "city": { "$ref": "common.defs.json#/$defs/verifiableText" },
+        "hotel": { "$ref": "common.defs.json#/$defs/verifiableText" },
+        "startDate": { "$ref": "common.defs.json#/$defs/verifiableDate" },
+        "endDate": { "$ref": "common.defs.json#/$defs/verifiableDate" },
+        "bookingUrl": { "$ref": "common.defs.json#/$defs/verifiableUrl" }
+      }
+    },
+    "areas": {
+      "type": "array", "minItems": 1,
+      "items": { "type": "object", "additionalProperties": false, "required": ["slug", "name", "plannedPath", "url"],
+        "properties": {
+          "slug": { "$ref": "common.defs.json#/$defs/slug" },
+          "name": { "$ref": "common.defs.json#/$defs/safeText" },
+          "plannedPath": { "type": "string", "pattern": "^/areas/[a-z0-9-]+/$" },
+          "url": { "$ref": "common.defs.json#/$defs/verifiableUrl" }
+        } }
+    },
+    "brand": {
+      "type": "object", "additionalProperties": false,
+      "properties": {
+        "primaryColor": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" },
+        "fontFamily": { "type": "string" },
+        "logoAsset": { "$ref": "common.defs.json#/$defs/verifiableText" }
+      }
+    }
+  }
+}

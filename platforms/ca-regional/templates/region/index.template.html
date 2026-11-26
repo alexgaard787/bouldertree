@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{TITLE}}</title>
+<meta name="description" content="{{DESCRIPTION}}">
+<!-- PROTOTYPE: keep noindex until every [VERIFY] item is confirmed, then remove. -->
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#00594F">
+<meta name="generator" content="BoulderTree build-region.js (regional core V1)">
+<!-- Privacy-first: no network requests (no fonts, trackers, or CDNs). -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src data: blob:; style-src 'unsafe-inline'; script-src 'unsafe-inline'; object-src data: blob:; frame-src data: blob:; base-uri 'none'; form-action 'none'">
+<meta property="og:title" content="{{TITLE}}">
+<meta property="og:description" content="{{DESCRIPTION}}">
+<meta property="og:type" content="website">
+<script type="application/ld+json" id="region-jsonld">
+{{{JSONLD}}}
+</script>
+<style>
+{{{CSS}}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to main content</a>
+{{{HELPBAR}}}
+
+<header class="site">
+  <div class="wrap">
+    <div class="crumbs">{{SHORT_NAME}} <span class="sample">REGIONAL CORE V1</span></div>
+    <h1>{{COUNCIL_NAME}}</h1>
+    <p>{{FELLOWSHIP}} meetings, help, and service across the {{REGION_NAME}}. Everyone who wants to stop using is welcome. There are no dues or fees.</p>
+    <nav class="tabs" aria-label="Site sections">
+      <a href="#seekers" id="tab-a" aria-controls="seekers">Find Help &amp; Meetings</a>
+      <a href="#groups" id="tab-b" aria-controls="groups">Groups, Flyers &amp; Service</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+
+<section id="seekers" class="panel" aria-labelledby="h-seekers">
+  <h2 id="h-seekers">Section A: Seekers, Newcomers, Families &amp; Aftercare</h2>
+  {{{HELP_CARD}}}
+
+  <div class="card" id="areas">
+    <h3>Find a meeting by area</h3>
+    <p class="hint">Pick your area to see its groups. Area pages are planned at <code>/areas/&lt;area&gt;/</code>. <span class="verify">[VERIFY] area URLs</span> <span class="verify">[VERIFY] region boundaries</span></p>
+    <ul class="chips" id="area-links">
+      {{{AREA_CHIPS}}}
+    </ul>
+    {{{AREA_PANELS}}}
+    <p class="hint">Full regional meeting finder {{{MEETING_FINDER}}}</p>
+  </div>
+
+  {{{FIRST_MEETING}}}
+  {{{AFTERCARE_FAMILY}}}
+</section>
+
+<section id="groups" class="panel" aria-labelledby="h-groups">
+  <h2 id="h-groups">Section B: Group Empowerment, Unity &amp; World Service</h2>
+  {{{NEWS}}}
+  {{{FLYERS}}}
+  {{{UPLOAD}}}
+  {{{STRUGGLES}}}
+  {{{CONFERENCE}}}
+
+  <div class="card" id="bootstrapper">
+    <h3>Start a group site (Group Bootstrapper)</h3>
+    <p>Each home group can get its own page generated from this regional site. It inherits regional news, flyers, and the conference card automatically, and adds the group's own meeting details and structured data.</p>
+    <p class="hint">Edit a <code>group.json</code> below. The in-page checks mirror the repo harness. To publish, a tech steward runs <code>node apps/group-bootstrapper/scripts/bootstrap-group.js group.json</code>.</p>
+    <label for="cfg">group.json</label>
+    <textarea id="cfg" class="code" spellcheck="false"></textarea>
+    <p><button class="btn secondary" type="button" id="cfg-reset">Reset</button> <button class="btn secondary" type="button" id="cfg-dl">Download group.json</button> <button class="btn secondary" type="button" id="ld-copy">Copy JSON-LD</button></p>
+    <p class="msg" id="cfg-msg" role="status"></p>
+    <ul id="cfg-issues"></ul>
+    <h4>Fork JSON-LD preview (Organization + Event)</h4>
+    <pre class="out" id="ld-out"></pre>
+  </div>
+
+  {{{METRICS}}}
+</section>
+</main>
+
+{{{FOOTER}}}
+
+<nav class="actionbar" aria-label="Quick actions">
+  <a href="#help" data-metric="seekers:hotline_click">Need Help</a>
+  <a href="#areas" data-metric="seekers:happening_next_view">Meetings</a>
+  <a href="#groups">Groups</a>
+</nav>
+
+{{{LIGHTBOX}}}
+
+<script type="application/json" id="site-data">
+{{{SITE_DATA}}}
+</script>
+<script type="application/json" id="starter-config">
+{{{STARTER_CONFIG}}}
+</script>
+<script>
+{{{SITE_JS}}}
+</script>
+<script>
+{{{PREVIEW_JS}}}
+</script>
+</body>
+</html>

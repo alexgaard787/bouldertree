@@ -1,0 +1,15 @@
+{
+  "generator": "apps/group-bootstrapper/scripts/bootstrap-group.js",
+  "generatorVersion": "1.0.0",
+  "slug": "bottom-line-club-101",
+  "area": "austin-central-texas",
+  "sourceConfigSha256": "ebc1f0c21ac7932864f618ed6bdda44dc3a5287155fad5f706555d11b53953b6",
+  "regionalFeedsSha256": "f6f8de310563bece3e58ddc7cb6ef2cd498ecb85ab872596e42ea49af454c6c1",
+  "templateSha256": "a8024a0aa37fd169807caa64e65fb8f433700cc2b55114d603bde1ff81ed7c8c",
+  "inherits": [
+    "data/region.json",
+    "data/news.json",
+    "data/flyers.json"
+  ],
+  "note": "Generated file. Edit group.json or the regional data/templates and re-run bootstrap-group.js; do not hand-edit."
+}

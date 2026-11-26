@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "1.0.0",
+  "isSample": true,
+  "items": [
+    {
+      "id": "regional-council-update-placeholder",
+      "source": "regional-council",
+      "title": "Regional Council update",
+      "summary": "Placeholder. The Regional Council's current announcements will appear here once a secretary or Internet Chair posts them.",
+      "date": "[VERIFY]",
+      "url": "[VERIFY]",
+      "status": "placeholder"
+    },
+    {
+      "id": "world-council-update-placeholder",
+      "source": "world-council",
+      "title": "World Service update",
+      "summary": "Placeholder. World Council and World Service news will appear here once a confirmed item and link are added.",
+      "date": "[VERIFY]",
+      "url": "[VERIFY]",
+      "status": "placeholder"
+    },
+    {
+      "id": "world-conference-2027-room-block",
+      "source": "world-council",
+      "title": "August 2027 World Conference: room block",
+      "summary": "Reserving a room in the official conference block helps the fellowship meet its room-block quota. Booking link, hotel, dates, and the $0-upfront terms are not confirmed yet.",
+      "date": "[VERIFY]",
+      "url": "[VERIFY]",
+      "status": "placeholder"
+    }
+  ]
+}

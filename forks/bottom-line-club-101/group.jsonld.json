@@ -1,0 +1,53 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "#group",
+      "name": "Bottom Line — Cocaine Anonymous Group",
+      "description": "Bottom Line is a local Cocaine Anonymous group meeting at Club 101 in Austin, TX. Self-supporting through the 7th Tradition; no dues or fees; newcomers welcome.",
+      "areaServed": {
+        "@type": "AdministrativeArea",
+        "name": "Austin / Central Texas — Southwest Region"
+      },
+      "parentOrganization": {
+        "@type": "Organization",
+        "name": "Cocaine Anonymous Southwest Region"
+      }
+    },
+    {
+      "@type": "Event",
+      "@id": "#meeting-1",
+      "name": "Bottom Line Weekly Recovery Meeting (In-Person & Zoom Hybrid)",
+      "description": "Open meeting of the Bottom Line group. No dues or fees; no pressure to speak.",
+      "eventStatus": "https://schema.org/EventScheduled",
+      "isAccessibleForFree": true,
+      "organizer": {
+        "@id": "#group"
+      },
+      "eventAttendanceMode": "https://schema.org/MixedEventAttendanceMode",
+      "eventSchedule": {
+        "@type": "Schedule",
+        "repeatFrequency": "P1W",
+        "byDay": "https://schema.org/Tuesday",
+        "startTime": "19:30:00"
+      },
+      "location": [
+        {
+          "@type": "Place",
+          "name": "Club 101",
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Austin",
+            "addressRegion": "TX",
+            "addressCountry": "US"
+          }
+        },
+        {
+          "@type": "VirtualLocation",
+          "name": "Bottom Line Zoom room (link shared by the group)"
+        }
+      ]
+    }
+  ]
+}

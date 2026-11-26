@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/alexgaard787/bouldertree/main/platforms/ca-regional/data/schema/common.defs.json",
+  "title": "Shared definitions for CA regional data feeds",
+  "$defs": {
+    "verify": { "const": "[VERIFY]" },
+    "safeText": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Public, anonymity-safe text: no emails, phone numbers, or tel/sms/mailto links.",
+      "not": { "anyOf": [
+        { "pattern": "[A-Za-z0-9._%+\\-]+@[A-Za-z0-9.\\-]+\\.[A-Za-z]{2,}" },
+        { "pattern": "(?:tel:|sms:|mailto:)" },
+        { "pattern": "\\(?\\d{3}\\)?[\\s.\\-]?\\d{3}[\\s.\\-]?\\d{4}" }
+      ] }
+    },
+    "verifiableText": { "anyOf": [ { "$ref": "#/$defs/verify" }, { "$ref": "#/$defs/safeText" } ] },
+    "verifiableUrl": { "anyOf": [ { "$ref": "#/$defs/verify" }, { "type": "string", "format": "uri", "pattern": "^https?://" } ] },
+    "verifiableDate": { "anyOf": [ { "$ref": "#/$defs/verify" }, { "type": "string", "format": "date" } ] },
+    "verifiableBoolean": { "anyOf": [ { "$ref": "#/$defs/verify" }, { "type": "boolean" } ] },
+    "slug": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+    "source": { "enum": ["regional-council", "world-council"] }
+  }
+}

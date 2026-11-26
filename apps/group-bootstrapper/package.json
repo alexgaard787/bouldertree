@@ -7,7 +7,13 @@
     "validate": "node scripts/validate.mjs",
     "test": "node scripts/validate.mjs",
     "validate:config": "node scripts/validate-group-config.js",
-    "test:harness": "node scripts/test-validate-group-config.js"
+    "test:harness": "node scripts/test-validate-group-config.js",
+    "bootstrap": "node scripts/bootstrap-group.js",
+    "build:forks": "node scripts/bootstrap-group.js examples/bottom-line-club-101.v2.json",
+    "build:region": "node scripts/build-region.js",
+    "build": "npm run build:forks && npm run build:region",
+    "test:bootstrap": "node scripts/test-bootstrap-group.js",
+    "check:generated": "node scripts/bootstrap-group.js examples/bottom-line-club-101.v2.json --check && node scripts/build-region.js --check"
   },
   "engines": {
     "node": ">=20"

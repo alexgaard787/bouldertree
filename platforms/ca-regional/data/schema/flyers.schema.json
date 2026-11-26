@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/alexgaard787/bouldertree/main/platforms/ca-regional/data/schema/flyers.schema.json",
+  "title": "CA regional flyer feed (flyers.json)",
+  "description": "Regional and World Council flyers inherited by every group fork. Each item has either a 'placeholder' (rendered as an SVG) or a 'src' (a repo-relative image/PDF path or data URI). Flyers must show no last names, full-face photos, or personal contacts.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "isSample", "items"],
+  "properties": {
+    "schemaVersion": { "const": "1.0.0" },
+    "isSample": { "type": "boolean" },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["id", "source", "title", "category", "eventDate", "alt"],
+        "oneOf": [ { "required": ["placeholder"] }, { "required": ["src"] } ],
+        "properties": {
+          "id": { "$ref": "common.defs.json#/$defs/slug" },
+          "source": { "$ref": "common.defs.json#/$defs/source" },
+          "title": { "$ref": "common.defs.json#/$defs/safeText" },
+          "category": { "enum": ["Unity / Campouts", "Workshops / Speakers", "Area / Service", "Other"] },
+          "eventDate": { "$ref": "common.defs.json#/$defs/verifiableDate" },
+          "archiveAfter": { "$ref": "common.defs.json#/$defs/verifiableDate" },
+          "alt": { "$ref": "common.defs.json#/$defs/safeText" },
+          "src": { "type": "string", "pattern": "^(flyers/[a-z0-9-]+\\.(png|jpe?g|svg|pdf)|data:(image/(png|jpeg|svg\\+xml)|application/pdf)[;,])" },
+          "placeholder": { "type": "object", "additionalProperties": false, "required": ["heading", "subheading", "color"],
+            "properties": {
+              "heading": { "type": "string", "maxLength": 40 },
+              "subheading": { "type": "string", "maxLength": 60 },
+              "note": { "type": "string", "maxLength": 60 },
+              "color": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" }
+            } }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "1.0.0",
+  "isSample": true,
+  "fellowship": "Cocaine Anonymous",
+  "regionName": "Southwest Region",
+  "councilName": "Southwest Regional Council",
+  "shortName": "C.A. Southwest Region",
+  "regionBoundaryNote": "[VERIFY]",
+  "hotline": {
+    "label": "Regional hotline",
+    "number": "[VERIFY]",
+    "helpPageUrl": "[VERIFY]",
+    "note": "Only the official regional hotline is published. Never a personal number."
+  },
+  "crisisPointers": [
+    { "label": "Immediate danger (U.S.)", "action": "Call 911" },
+    { "label": "Mental-health or suicide crisis (U.S.)", "action": "Call or text 988" }
+  ],
+  "links": {
+    "regionalSite": "[VERIFY]",
+    "worldServices": "[VERIFY]",
+    "meetingFinder": "[VERIFY]",
+    "flyerSubmissionEndpoint": "[VERIFY]",
+    "groupStrugglesEndpoint": "[VERIFY]",
+    "familyResources": "[VERIFY]"
+  },
+  "conference2027": {
+    "enabled": true,
+    "title": "August 2027 World Conference",
+    "monthYear": "August 2027",
+    "noUpfrontPayment": "[VERIFY]",
+    "city": "[VERIFY]",
+    "hotel": "[VERIFY]",
+    "startDate": "[VERIFY]",
+    "endDate": "[VERIFY]",
+    "bookingUrl": "[VERIFY]"
+  },
+  "areas": [
+    { "slug": "austin-central-texas", "name": "Austin / Central Texas", "plannedPath": "/areas/austin-central-texas/", "url": "[VERIFY]" },
+    { "slug": "buda-kyle", "name": "Buda / Kyle", "plannedPath": "/areas/buda-kyle/", "url": "[VERIFY]" },
+    { "slug": "san-marcos", "name": "San Marcos", "plannedPath": "/areas/san-marcos/", "url": "[VERIFY]" },
+    { "slug": "lockhart", "name": "Lockhart", "plannedPath": "/areas/lockhart/", "url": "[VERIFY]" },
+    { "slug": "san-antonio", "name": "San Antonio", "plannedPath": "/areas/san-antonio/", "url": "[VERIFY]" },
+    { "slug": "houston", "name": "Houston", "plannedPath": "/areas/houston/", "url": "[VERIFY]" },
+    { "slug": "dfw", "name": "Dallas–Fort Worth", "plannedPath": "/areas/dfw/", "url": "[VERIFY]" },
+    { "slug": "el-paso", "name": "El Paso", "plannedPath": "/areas/el-paso/", "url": "[VERIFY]" }
+  ],
+  "brand": { "primaryColor": "#00594F", "fontFamily": "Open Sans", "logoAsset": "[VERIFY]" }
+}

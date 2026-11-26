@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{TITLE}}</title>
+<meta name="description" content="{{DESCRIPTION}}">
+<!-- PROTOTYPE: keep noindex until every [VERIFY] item is confirmed, then remove. -->
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#00594F">
+<meta name="generator" content="BoulderTree bootstrap-group.js (group fork V1)">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src data: blob:; style-src 'unsafe-inline'; script-src 'unsafe-inline'; object-src data: blob:; frame-src data: blob:; base-uri 'none'; form-action 'none'">
+<meta property="og:title" content="{{TITLE}}">
+<meta property="og:description" content="{{DESCRIPTION}}">
+<meta property="og:type" content="website">
+<script type="application/ld+json" id="group-jsonld">
+{{{JSONLD}}}
+</script>
+<style>
+{{{CSS}}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to main content</a>
+{{{HELPBAR}}}
+
+<header class="site">
+  <div class="wrap">
+    <div class="crumbs"><a href="{{REGION_HREF}}">{{SHORT_NAME}}</a> › <a href="{{AREA_HREF}}">{{AREA_NAME}}</a> › {{GROUP_NAME}} <span class="sample">GROUP FORK V1</span></div>
+    <h1>{{GROUP_NAME}} at {{VENUE_LABEL}}</h1>
+    <p>A {{FELLOWSHIP}} group. {{TAGLINE}} Everyone is welcome.</p>
+    <nav class="tabs" aria-label="Site sections">
+      <a href="#seekers" id="tab-a" aria-controls="seekers">Find Help &amp; Our Meeting</a>
+      <a href="#groups" id="tab-b" aria-controls="groups">Region News, Flyers &amp; Service</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+
+<section id="seekers" class="panel" aria-labelledby="h-seekers">
+  <h2 id="h-seekers">Section A: Seekers, Newcomers, Families &amp; Aftercare</h2>
+  {{{HELP_CARD}}}
+
+  <div class="card" id="meeting">
+    <h3>Our meeting</h3>
+    {{{MEETINGS}}}
+    <p>{{WELCOME_COPY}}</p>
+    <p><a class="btn secondary" href="#meeting" id="ics-meeting" data-metric="seekers:meeting_calendar_add">Add our meeting to my calendar</a></p>
+  </div>
+
+  {{{FIRST_MEETING}}}
+
+  <div class="card" id="areas">
+    <h3>More meetings nearby</h3>
+    <p>{{GROUP_NAME}} is part of the {{AREA_NAME}} area of the {{REGION_NAME}}.</p>
+    <p><a class="btn secondary" href="{{AREA_HREF}}" data-metric="seekers:area_link_click">See all {{AREA_NAME}} meetings on the regional site</a></p>
+  </div>
+
+  {{{AFTERCARE_FAMILY}}}
+</section>
+
+<section id="groups" class="panel" aria-labelledby="h-groups">
+  <h2 id="h-groups">Section B: Region News, Flyers, Unity &amp; World Service</h2>
+  {{{NEWS}}}
+  {{{FLYERS}}}
+  {{{UPLOAD}}}
+  {{{STRUGGLES}}}
+  {{{CONFERENCE}}}
+  {{{METRICS}}}
+</section>
+</main>
+
+{{{FOOTER}}}
+
+<nav class="actionbar" aria-label="Quick actions">
+  <a href="#help" data-metric="seekers:hotline_click">Need Help</a>
+  <a href="#meeting" data-metric="seekers:happening_next_view">Our Meeting</a>
+  <a href="#groups">Region News</a>
+</nav>
+
+{{{LIGHTBOX}}}
+
+<script type="application/json" id="site-data">
+{{{SITE_DATA}}}
+</script>
+<script>
+{{{SITE_JS}}}
+</script>
+</body>
+</html>

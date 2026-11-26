@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/alexgaard787/bouldertree/main/platforms/ca-regional/data/schema/news.schema.json",
+  "title": "CA regional news feed (news.json)",
+  "description": "Regional Council and World Council news items inherited by every group fork. Placeholder items must say so (status 'placeholder'). No invented events, names, or personal contacts.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "isSample", "items"],
+  "properties": {
+    "schemaVersion": { "const": "1.0.0" },
+    "isSample": { "type": "boolean" },
+    "items": {
+      "type": "array",
+      "items": { "type": "object", "additionalProperties": false, "required": ["id", "source", "title", "summary", "date", "status"],
+        "properties": {
+          "id": { "$ref": "common.defs.json#/$defs/slug" },
+          "source": { "$ref": "common.defs.json#/$defs/source" },
+          "title": { "$ref": "common.defs.json#/$defs/safeText" },
+          "summary": { "$ref": "common.defs.json#/$defs/safeText" },
+          "date": { "$ref": "common.defs.json#/$defs/verifiableDate" },
+          "url": { "$ref": "common.defs.json#/$defs/verifiableUrl" },
+          "status": { "enum": ["placeholder", "published", "archived"] }
+        } }
+    }
+  }
+}

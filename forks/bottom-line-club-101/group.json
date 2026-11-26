@@ -1,0 +1,95 @@
+{
+  "isSample": true,
+  "schemaVersion": "1.1.0",
+  "slug": "bottom-line-club-101",
+  "fellowship": "Cocaine Anonymous",
+  "groupName": "Bottom Line",
+  "region": "Southwest Region",
+  "area": "Austin / Central Texas",
+  "areaSlug": "austin-central-texas",
+  "venueLabel": "Club 101",
+  "venueAddress": "[VERIFY]",
+  "venueLocality": {
+    "city": "Austin",
+    "state": "TX",
+    "country": "US"
+  },
+  "cadence": "weekly",
+  "welcomeCopy": "Open format; all people are welcome; no pressure to speak; welcoming newcomers and anyone looking to make Bottom Line their home group.",
+  "seventhTraditionNote": "Supported by the 7th Tradition; self-supporting.",
+  "traditionsNote": "Upholds Traditions Six, Seven, Ten, Eleven, and Twelve (attraction rather than promotion, clear separation from outside commercial enterprises, and anonymity protection across public pages, flyers, and forms).",
+  "meetings": [
+    {
+      "day": "Tuesday",
+      "time": "19:30",
+      "timezone": "[VERIFY]",
+      "format": "open",
+      "attendance": "hybrid",
+      "durationMinutes": "[VERIFY]",
+      "notes": "Confirmed by the group: Tuesdays 7:30 p.m., hybrid In-Person + Zoom, open format, no pressure to speak, 7th Tradition self-supporting. Timezone, street address, Zoom link, and other URLs stay [VERIFY]."
+    }
+  ],
+  "groupServiceEmail": "[VERIFY]",
+  "groupServiceUrl": "[VERIFY]",
+  "links": {
+    "website": "[VERIFY]",
+    "onlineMeetingUrl": "[VERIFY]",
+    "regionalSite": "[VERIFY]",
+    "areaHub": "[VERIFY]",
+    "flyerViewer": "[VERIFY]",
+    "flyerSubmission": "[VERIFY]",
+    "groupStrugglesForm": "[VERIFY]",
+    "worldConferenceBooking": "[VERIFY]",
+    "firstMeetingGuide": "[VERIFY]"
+  },
+  "traditionsCompliance": {
+    "noPersonalLastNames": true,
+    "noCommercialEndorsement": true,
+    "autoPurgeTransientContactLogs": true
+  },
+  "worldConference2027": {
+    "enabled": true,
+    "monthYear": "August 2027",
+    "noUpfrontPayment": "[VERIFY]",
+    "startDate": "[VERIFY]",
+    "endDate": "[VERIFY]"
+  },
+  "sections": {
+    "happeningNext": {
+      "enabled": true,
+      "title": "Happening Next",
+      "summary": "Tuesday 7:30 p.m. at Club 101 and on Zoom.",
+      "url": "[VERIFY]"
+    },
+    "firstMeeting": {
+      "enabled": true,
+      "title": "First Meeting? What to Expect",
+      "summary": "The only requirement is a desire to stop using. There are no dues or fees, and newcomers do not have to speak or have everything figured out on day one.",
+      "url": "[VERIFY]"
+    },
+    "regionalNewsAndFlyers": {
+      "enabled": true,
+      "title": "Regional Council News, Flyers & Updates",
+      "summary": "Full-page/lightbox flyer viewer with direct download and print-ready layout.",
+      "url": "[VERIFY]"
+    },
+    "worldConference2027": {
+      "enabled": true,
+      "title": "August 2027 World Conference",
+      "summary": "Reserve a room in the official block. $0 upfront is [VERIFY].",
+      "url": "[VERIFY]"
+    },
+    "groupStrugglesForm": {
+      "enabled": true,
+      "title": "Group Struggles & Website Ideas",
+      "summary": "Share meeting challenges, flyer/print hurdles, and website ideas with the region.",
+      "url": "[VERIFY]"
+    },
+    "regionalHotline": {
+      "enabled": true,
+      "title": "Need Help Now",
+      "summary": "[VERIFY]",
+      "url": "[VERIFY]"
+    }
+  }
+}
