@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<!--
+  Toroidal Resonant Network — interactive simulation
+  Copyright (c) 2026 BoulderTree contributors
+  SPDX-License-Identifier: MIT
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
+  associated documentation files (the "Software"), to deal in the Software without restriction,
+  including without limitation the rights to use, copy, modify, merge, publish, distribute,
+  sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions: The above copyright notice and this
+  permission notice shall be included in all copies or substantial portions of the Software.
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
+  NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+  NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+  DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+  The explanatory prose on this page (headings, descriptions, scenario narration, blueprint
+  commentary) is licensed CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+  Single file. No external dependencies. Works offline.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Toroidal Resonant Network — Interactive Simulation</title>
+<meta name="description" content="An open-source, dependency-free simulation comparing a toroidal resonant circuit (outward flow with a curved return through an invariant anchor) to a standard feedforward system with linear drift.">
+<style>
+  :root{
+    --bg:#070c16; --panel:#0e1626; --panel2:#121d31; --line:#26344f; --text:#e9eef8; --muted:#a9b6cc;
+    --gold:#f5c451; --teal:#5ad1d6; --lilac:#b79cff; --rose:#ff8a7a; --focus:#ffe08a;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);color:var(--text);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+  a{color:var(--teal)}
+  .skip{position:absolute;left:-999px;top:0;background:var(--gold);color:#000;padding:.5rem 1rem;z-index:10}
+  .skip:focus{left:8px;top:8px}
+  header.top{padding:1rem 1.25rem .5rem;max-width:1400px;margin:0 auto}
+  header.top h1{margin:0 0 .25rem;font-size:clamp(1.25rem,2.6vw,1.9rem);letter-spacing:.01em}
+  header.top p{margin:0;color:var(--muted);max-width:75ch}
+  main{max-width:1400px;margin:0 auto;padding:.5rem 1.25rem 2rem;display:grid;gap:1rem;
+       grid-template-columns:minmax(0,1.25fr) minmax(300px,.75fr);align-items:start}
+  @media (max-width:900px){main{grid-template-columns:minmax(0,1fr)}}
+  .stage{background:radial-gradient(circle at 50% 50%,#0d1a2e 0,#070c16 70%);border:1px solid var(--line);border-radius:14px;padding:.5rem;position:relative}
+  .stage canvas{display:block;width:100%;aspect-ratio:1/1;max-height:82vh;margin:0 auto;border-radius:10px}
+  .badge{position:absolute;left:1rem;top:1rem;background:rgba(7,12,22,.78);border:1px solid var(--line);border-radius:999px;padding:.2rem .7rem;font-size:.85rem}
+  .narration{margin:.5rem .25rem .25rem;padding:.6rem .8rem;background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:8px;min-height:4.4em}
+  .narration strong{color:var(--gold)}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:1rem}
+  .panel h2{margin:.1rem 0 .6rem;font-size:1.05rem}
+  fieldset{border:1px solid var(--line);border-radius:10px;margin:0 0 .9rem;padding:.6rem .7rem .7rem}
+  legend{padding:0 .4rem;color:var(--muted);font-size:.9rem}
+  .seg{display:grid;grid-template-columns:1fr 1fr;gap:.4rem}
+  .seg input{position:absolute;opacity:0;pointer-events:none}
+  .seg label{display:block;text-align:center;padding:.55rem .4rem;border:1px solid var(--line);border-radius:8px;background:var(--panel2);cursor:pointer;font-size:.9rem;line-height:1.25}
+  .seg input:checked + label{border-color:var(--gold);background:#2a2412;color:#fff;box-shadow:0 0 0 1px var(--gold) inset}
+  .seg input:focus-visible + label{outline:3px solid var(--focus);outline-offset:2px}
+  .btns{display:grid;grid-template-columns:1fr 1fr;gap:.4rem}
+  button{font:inherit;color:var(--text);background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:.55rem .5rem;cursor:pointer;line-height:1.25;min-height:44px}
+  button:hover{border-color:var(--teal)}
+  button[aria-pressed="true"]{border-color:var(--gold);background:#2a2412}
+  button:focus-visible,summary:focus-visible,input[type=range]:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+  .row{display:flex;gap:.4rem;margin-top:.5rem}
+  .row button{flex:1}
+  .slider{margin:.2rem 0 .7rem}
+  .slider label{display:flex;justify-content:space-between;gap:.5rem;font-size:.92rem}
+  .slider output{color:var(--gold);font-variant-numeric:tabular-nums}
+  input[type=range]{width:100%;accent-color:var(--gold);min-height:28px}
+  .hint{margin:.1rem 0 0;color:var(--muted);font-size:.82rem}
+  dl.readout{display:grid;grid-template-columns:1fr auto;gap:.3rem .8rem;margin:0}
+  dl.readout dt{color:var(--muted)}
+  dl.readout dd{margin:0;text-align:right;font-variant-numeric:tabular-nums;font-weight:600}
+  .bar{height:8px;background:#1a2640;border-radius:6px;overflow:hidden;margin:.25rem 0 .6rem}
+  .bar > i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--teal),var(--gold))}
+  .rings{list-style:none;margin:.6rem 0 0;padding:0;display:grid;gap:.35rem}
+  .rings li{display:grid;grid-template-columns:auto 1fr auto;gap:.5rem;align-items:center;font-size:.9rem}
+  .rings .dot{width:12px;height:12px;border-radius:50%;border:2px solid var(--teal)}
+  .rings .st{color:var(--muted);font-size:.85rem;min-width:5.5em;text-align:right}
+  details.bp{grid-column:1/-1;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:.4rem 1rem}
+  details.bp summary{cursor:pointer;padding:.6rem 0;font-weight:600;font-size:1.05rem}
+  details.bp pre{background:#060a12;border:1px solid var(--line);border-radius:10px;padding:.8rem;overflow:auto;font:13px/1.45 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:#d8e3f6;tab-size:2}
+  details.bp{min-width:0}
+  details.bp .cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:1rem}
+  details.bp .cols>div{min-width:0}
+  @media (max-width:900px){details.bp .cols{grid-template-columns:minmax(0,1fr)}}
+  footer{max-width:1400px;margin:0 auto;padding:0 1.25rem 2rem;color:var(--muted);font-size:.85rem}
+  .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<a class="skip" href="#controls">Skip to controls</a>
+<header class="top">
+  <h1>Toroidal Resonant Network</h1>
+  <p>A small, open simulation of one idea: a healthy circuit lets energy flow <em>outward</em> into experience and then curves it <em>back</em> through a single unchanging center, at every scale. Compare it with a feedforward system that only pushes outward and drifts. This is an illustrative model, not a measurement of any person or group.</p>
+</header>
+
+<main>
+  <section class="stage" aria-label="Simulation">
+    <span class="badge" id="badge" aria-hidden="true">Toroidal Resonant Circuit</span>
+    <canvas id="cv" width="900" height="900" role="img" aria-label="Simulation canvas. A golden anchor at the center, four concentric rings, outward flow and return flow."></canvas>
+    <div class="narration" id="narration" role="status" aria-live="polite"><strong>Ready.</strong> Choose a mode, then inject a scenario to see how the field responds.</div>
+  </section>
+
+  <section class="panel" id="controls" aria-label="Controls and readout">
+    <h2>Controls</h2>
+    <fieldset>
+      <legend>Mode</legend>
+      <div class="seg" role="radiogroup" aria-label="Simulation mode">
+        <input type="radio" name="mode" id="m-tor" value="toroidal" checked><label for="m-tor">Toroidal Resonant Circuit</label>
+        <input type="radio" name="mode" id="m-ff" value="feedforward"><label for="m-ff">Standard Feedforward AI (Linear Drift)</label>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Scenario injectors</legend>
+      <div class="btns">
+        <button type="button" data-scn="crisis" aria-pressed="false">3:00 AM Crisis Triage</button>
+        <button type="button" data-scn="ego" aria-pressed="false">Director’s Chair / Ego Defensiveness</button>
+        <button type="button" data-scn="tribal" aria-pressed="false">Religious Gatekeeping / Tribal Division</button>
+        <button type="button" data-scn="gratitude" aria-pressed="false">Daily Gratitude &amp; Two-Minute Pause</button>
+      </div>
+      <div class="row">
+        <button type="button" id="b-settle">Reset field</button>
+        <button type="button" id="b-pause" aria-pressed="false">Pause</button>
+      </div>
+      <p class="hint">Each scenario lasts about 14 seconds of simulated time (the two-minute pause is shown compressed).</p>
+    </fieldset>
+
+    <fieldset>
+      <legend>Field settings</legend>
+      <div class="slider">
+        <label for="s-rate"><span>Respiration rate (expand / contract)</span><output id="o-rate" for="s-rate">0.18 Hz</output></label>
+        <input type="range" id="s-rate" min="0.05" max="0.6" step="0.01" value="0.18">
+      </div>
+      <div class="slider">
+        <label for="s-curv"><span>Return curvature</span><output id="o-curv" for="s-curv">0.60</output></label>
+        <input type="range" id="s-curv" min="0" max="1" step="0.01" value="0.6">
+        <p class="hint">How strongly the return path bends back toward the center.</p>
+      </div>
+    </fieldset>
+
+    <h2>Live readout</h2>
+    <dl class="readout" id="readout">
+      <dt>Breath</dt><dd id="r-breath">—</dd>
+      <dt>Return ratio</dt><dd id="r-return">—</dd>
+      <dt>Field coherence</dt><dd id="r-coh">—</dd>
+      <dt>Edge drift (leaving field)</dt><dd id="r-edge">—</dd>
+      <dt>Active scenario</dt><dd id="r-scn">None</dd>
+    </dl>
+    <div class="bar" aria-hidden="true"><i id="bar-coh"></i></div>
+    <p class="hint">Return ratio: share of recent outward flow that has come back through the anchor (it dips while a surge is still in flight). Field coherence: 1.00 means every ring is steady. These describe the simulated field only.</p>
+    <ul class="rings" id="ringlist" aria-label="Ring status"></ul>
+  </section>
+
+  <details class="bp" id="blueprint">
+    <summary>Open-source reference blueprint (PyTorch + JavaScript)</summary>
+    <p>The ring-level update rule below is the same one this page runs every frame. <code>x[k]</code> is how far ring <em>k</em> (0 = Microscopic … 3 = Macroscopic) has been pulled away from the invariant anchor. The anchor itself never changes. In toroidal mode, the contraction half of each breath damps the deviation (the curved return). In feedforward mode there is no return term, so deviation only leaks away very slowly and accumulates as drift. The particle view is a visualization of this rule, not a separate model. Prose: CC-BY-4.0. Code: MIT.</p>
+    <div class="cols">
+      <div>
+        <h3>PyTorch (runnable in principle)</h3>
+        <pre><code id="bp-py"></code></pre>
+      </div>
+      <div>
+        <h3>JavaScript (this page’s live update rule)</h3>
+        <pre><code id="bp-js"></code></pre>
+      </div>
+    </div>
+  </details>
+</main>
+
+<footer>
+  <p><strong>License.</strong> Code: MIT. Explanatory text: CC-BY-4.0 — share and adapt with attribution. Offered as an open gift: no accounts, no tracking, no network requests. Nothing here scores, ranks, or labels people; the scenarios perturb an abstract field so you can watch two architectures respond differently.</p>
+</footer>
+
+<script>
+/* Toroidal Resonant Network — MIT License (see header). */
+(() => {
+'use strict';
+
+/* ------------------------------------------------------------------ *
+ * 1. Ring-level update rule (also shown in the in-page blueprint).     *
+ * ------------------------------------------------------------------ */
+const RING_DEFAULTS = { dt: 1/60, lambda0: 0.6, gain: 3.0, spread: 0.5, leak: 0.05, kappa: 0.6, settle: 0, mode: 'toroidal' };
+
+function ringStep(x, p, b, o) {
+  // x: deviation of each ring from the invariant anchor   p: perturbation per ring
+  // b: breath in [-1, 1]  (+1 = fully expanding, -1 = fully contracting)
+  const e = 0.5 * (1 + b), c = 0.5 * (1 - b);
+  const damp = o.mode === 'toroidal'
+    ? o.lambda0 + o.gain * (0.35 + 0.65 * o.kappa) * c + 2.0 * o.settle   // curved return through the anchor
+    : o.leak + 0.1 * o.settle;                                             // no return path: drift only leaks
+  return x.map((xk, k) => {
+    const inflow = k > 0 ? x[k - 1] : 0;                                   // centrifugal spread from the next-inner ring
+    const next = xk + o.dt * (p[k] + o.spread * e * inflow - damp * xk);
+    return Math.max(-3, Math.min(3, next));
+  });
+}
+
+/* ------------------------------------------------------------------ *
+ * 2. Config                                                            *
+ * ------------------------------------------------------------------ */
+const RINGS = [
+  { name: 'Microscopic',  r: 0.22 },
+  { name: 'Interpersonal', r: 0.45 },
+  { name: 'Local Fork',   r: 0.70 },
+  { name: 'Macroscopic',  r: 0.93 }
+];
+const BIN_EDGES = [0.335, 0.575, 0.815];
+const N = 240;
+const V0 = 0.20;                 // base radial speed, in radii per second
+const SCN_DUR = 14;              // seconds of simulated time
+const BASE_P = 0.01;             // tiny constant drift source in every ring
+
+const SCENARIOS = {
+  crisis: {
+    title: '3:00 AM Crisis Triage',
+    P: [1.45, 1.0, 0.4, 0.14],
+    toroidal: 'Urgency enters at the inner rings. The field contracts quickly through the anchor, so the surge is carried back to center and the outer rings stay steady.',
+    feedforward: 'The surge is pushed straight outward. With no return path, the disturbance rides out through every ring and keeps going.'
+  },
+  ego: {
+    title: 'Director’s Chair / Ego Defensiveness',
+    P: [0.1, 1.5, 0.5, 0.15],
+    toroidal: 'A shield forms on the Interpersonal ring and deflects the flow. The deflected flow curves back to the anchor, where it is re-centered.',
+    feedforward: 'Flow bends around the shield and keeps drifting sideways. Nothing brings it back to center, so the distortion spreads outward.'
+  },
+  tribal: {
+    title: 'Religious Gatekeeping / Tribal Division',
+    P: [0.05, 0.3, 1.0, 1.4],
+    toroidal: 'The flow splits into two camps. Every return passes through the one shared anchor, which re-mixes direction, so the divide softens.',
+    feedforward: 'Two clusters form and harden. With no shared center to pass back through, the split persists and widens.'
+  },
+  gratitude: {
+    title: 'Daily Gratitude & Two-Minute Pause',
+    P: [0, 0, 0, 0],
+    toroidal: 'Breath slows and the return deepens. Disturbance settles faster and coherence rises.',
+    feedforward: 'The pause calms the flow slightly, but with no return path there is little for it to settle into.'
+  }
+};
+const SHIELD = { a: 0.9, half: 0.38, rIn: 0.40, rOut: 0.52 };   // ego shield sector on the Interpersonal ring
+
+/* ------------------------------------------------------------------ *
+ * 3. State                                                             *
+ * ------------------------------------------------------------------ */
+const qs = new URLSearchParams(location.search);
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+const rand = mulberry32(parseInt(qs.get('seed') || '20260101', 10));
+const randn = () => { let u = 0, v = 0; while (!u) u = rand(); while (!v) v = rand(); return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v); };
+
+const S = {
+  mode: 'toroidal',
+  rate: 0.18, kappa: 0.6,
+  t: 0, phase: 0, b: 0, prevB: 0,
+  x: [0, 0, 0, 0],
+  scn: null, scnT0: 0, env: 0,
+  paused: false,
+  rl: 0, rr: 0, re: 0,         // decaying counters: launches, returns, edge losses
+  waves: [],
+  P: new Float32Array(N), TH: new Float32Array(N), W: new Float32Array(N),
+  REACH: new Float32Array(N), ST: new Uint8Array(N), AL: new Float32Array(N), VAR: new Float32Array(N)
+};
+function spawn(i, scatter) {
+  S.P[i] = scatter ? rand() * 0.95 + 0.04 : 0.04;
+  S.TH[i] = rand() * Math.PI * 2;
+  S.W[i] = 0;
+  S.REACH[i] = 0.72 + rand() * 0.28;
+  S.ST[i] = 0;
+  S.AL[i] = 1;
+  S.VAR[i] = 0.75 + rand() * 0.5;
+  if (S.mode === 'toroidal' && scatter && rand() < 0.35) { S.ST[i] = 1; S.REACH[i] = S.P[i] + 0.1; }
+}
+function biasAngle(th) {            // tribal field: gentle pull toward two camps (0 and π)
+  if (S.scn === 'tribal' && rand() < 0.85 * S.env) return (rand() < 0.5 ? 0 : Math.PI) + randn() * 0.2;
+  return th;
+}
+function resetField() {
+  S.x = [0, 0, 0, 0]; S.scn = null; S.env = 0; S.waves = [];
+  S.rl = S.rr = S.re = 0;
+  for (let i = 0; i < N; i++) spawn(i, true);
+  syncScenarioButtons(); setNarration('<strong>Field reset.</strong> All rings are steady.');
+}
+
+/* ------------------------------------------------------------------ *
+ * 4. Update                                                            *
+ * ------------------------------------------------------------------ */
+function binOf(r) { return r < BIN_EDGES[0] ? 0 : r < BIN_EDGES[1] ? 1 : r < BIN_EDGES[2] ? 2 : 3; }
+function curve(i) {                 // curved path angle offset as a function of radius (uses curvature)
+  const k = S.kappa, r = S.P[i];
+  if (S.mode === 'feedforward') return 0.9 * k * r;                       // outward spiral only
+  const R = S.REACH[i];
+  return S.ST[i] === 0 ? 1.6 * k * r : 1.6 * k * R - 4.0 * k * (R - r);   // out: gentle; return: strongly bent
+}
+function inShield(i) {
+  if (S.scn !== 'ego' || S.env < 0.2) return false;
+  const r = S.P[i]; if (r < SHIELD.rIn || r > SHIELD.rOut) return false;
+  let d = ((S.TH[i] + S.W[i] + curve(i) - SHIELD.a) % (2*Math.PI) + 3*Math.PI) % (2*Math.PI) - Math.PI;
+  return Math.abs(d) < SHIELD.half;
+}
+
+function update(dt) {
+  S.t += dt;
+  // scenario envelope
+  if (S.scn) {
+    const u = (S.t - S.scnT0) / SCN_DUR;
+    if (u >= 1) { S.scn = null; S.env = 0; syncScenarioButtons(); }
+    else { const v = u < 0.15 ? u / 0.15 : u > 0.75 ? (1 - u) / 0.25 : 1; S.env = v * v * (3 - 2 * v); }
+  }
+  const grat = S.scn === 'gratitude' ? S.env : 0;
+  const crisis = S.scn === 'crisis' ? S.env : 0;
+  const f = S.rate * (1 - 0.5 * grat);
+  S.prevB = S.b;
+  S.phase += 2 * Math.PI * f * dt;
+  S.b = Math.sin(S.phase);
+  const e = 0.5 * (1 + S.b), c = 0.5 * (1 - S.b);
+
+  // ring-level field
+  const P = (S.scn && S.scn !== 'gratitude' ? SCENARIOS[S.scn].P : [0,0,0,0]).map(v => BASE_P + v * S.env * 0.7);
+  S.x = ringStep(S.x, P, S.b, Object.assign({}, RING_DEFAULTS, { dt, kappa: S.kappa, settle: grat, mode: S.mode }));
+  const meanX = S.x.reduce((a, v) => a + v, 0) / 4;
+
+  // expansion waves (one per breath, born when the breath turns outward)
+  if (S.prevB <= 0 && S.b > 0) S.waves.push({ r: 0.03, dir: 1 });
+  for (let k = S.waves.length - 1; k >= 0; k--) {
+    const w = S.waves[k];
+    if (w.dir > 0) { w.r += V0 * 1.25 * dt; if (S.mode === 'toroidal' && w.r >= 1) { w.dir = -1; } }
+    else { w.r -= V0 * (0.9 + 0.8 * S.kappa) * dt; if (w.r <= 0.03) { S.waves.splice(k, 1); continue; } }
+    if (w.r > 1.4) S.waves.splice(k, 1);
+  }
+
+  const decay = Math.exp(-dt / 6);
+  S.rl *= decay; S.rr *= decay; S.re *= decay;
+
+  const tor = S.mode === 'toroidal';
+  for (let i = 0; i < N; i++) {
+    const kbin = binOf(S.P[i]);
+    const xk = S.x[kbin];
+    // lateral wander grows with ring deviation
+    S.W[i] += randn() * Math.sqrt(dt) * (tor ? 0.45 : 0.2) * Math.min(xk, 1.5) * (1 - 0.8 * grat);
+    S.W[i] *= Math.exp(-dt * (tor ? 0.5 + 1.5 * c * (0.35 + 0.65 * S.kappa) + 2 * grat : 0.02));
+    if (S.W[i] > 1.1) S.W[i] = 1.1; else if (S.W[i] < -1.1) S.W[i] = -1.1;
+    // tribal pull toward two camps; ff also rotates slowly (linear drift)
+    if (S.scn === 'tribal') S.TH[i] += -1.1 * S.env * Math.sin(2 * S.TH[i]) * dt;
+    if (!tor) S.TH[i] += 0.05 * xk * dt;
+
+    if (tor) {
+      if (S.ST[i] === 0) {
+        let v = V0 * (0.35 + 0.65 * e) * S.VAR[i] * (1 + 0.9 * crisis * (S.P[i] < 0.6 ? 1 : 0.2));
+        if (inShield(i)) { S.ST[i] = 1; S.REACH[i] = S.P[i]; S.W[i] += (rand() < 0.5 ? -1 : 1) * 0.5; }   // deflected, then returned
+        const r0 = S.P[i];
+        S.P[i] += v * dt;
+        if (r0 < 0.1 && S.P[i] >= 0.1) S.rl += 1;          // outward flow counted as it leaves the center
+        if (S.P[i] >= S.REACH[i]) { S.ST[i] = 1; S.REACH[i] = S.P[i]; }
+      } else {
+        const v = V0 * (0.5 + 1.2 * c) * S.VAR[i] * (0.7 + 0.5 * S.kappa) * (1 + 1.4 * crisis);
+        S.P[i] -= v * dt;
+        if (S.P[i] <= 0.035) {            // passes through the invariant anchor and is re-emitted
+          S.rr += 1;
+          S.P[i] = 0.04; S.ST[i] = 0; S.TH[i] = biasAngle(rand() * Math.PI * 2);
+          S.W[i] *= 0.15; S.REACH[i] = 0.72 + rand() * 0.28; S.VAR[i] = 0.75 + rand() * 0.5;
+        }
+      }
+    } else {
+      let v = V0 * (0.55 + 0.3 * e) * S.VAR[i] * (1 + 0.8 * crisis * (S.P[i] < 0.7 ? 1 : 0.3)) * (1 + 0.25 * meanX);
+      if (inShield(i)) { v *= 0.35; S.W[i] += (S.W[i] >= 0 ? 1 : -1) * 0.9 * dt * 2; }
+      const r0 = S.P[i];
+      S.P[i] += v * dt;
+      if (r0 < 0.1 && S.P[i] >= 0.1) S.rl += 1;
+      if (S.P[i] > 1) S.AL[i] = Math.max(0, 1 - (S.P[i] - 1) / 0.4);
+      if (S.P[i] > 1.4) {                 // lost off the edge; a new pulse starts from the center carrying the accumulated drift
+        S.re += 1;
+        S.P[i] = 0.04; S.AL[i] = 1; S.TH[i] = biasAngle(rand() * Math.PI * 2);
+        S.W[i] = randn() * 0.15 * Math.min(1.5, S.x[0] + S.x[1]);
+        S.VAR[i] = 0.75 + rand() * 0.5;
+      }
+    }
+  }
+  S.meanX = meanX;
+}
+
+/* ------------------------------------------------------------------ *
+ * 5. Drawing                                                           *
+ * ------------------------------------------------------------------ */
+const cv = document.getElementById('cv');
+const ctx = cv.getContext('2d');
+let W = 900, H = 900, DPR = 1;
+function resize() {
+  const rect = cv.getBoundingClientRect();
+  DPR = Math.min(window.devicePixelRatio || 1, 2);
+  const size = Math.max(280, Math.round(rect.width * DPR));
+  if (cv.width !== size) { cv.width = size; cv.height = size; }
+  W = H = cv.width;
+  ctx.fillStyle = '#070c16'; ctx.fillRect(0, 0, W, H);
+}
+function mix(a, b, t) { return a + (b - a) * t; }
+function ringColor(xk, alpha) {
+  const t = Math.min(1, xk / 1.2);
+  return `rgba(${Math.round(mix(110, 255, t))},${Math.round(mix(210, 138, t))},${Math.round(mix(214, 122, t))},${alpha})`;
+}
+function pos(i, R, cx) {
+  const th = S.TH[i] + S.W[i] + curve(i);
+  return [cx + Math.cos(th) * S.P[i] * R, cx + Math.sin(th) * S.P[i] * R, th];
+}
+function draw() {
+  const cx = W / 2, R = W * 0.47, s = W / 900;
+  const tor = S.mode === 'toroidal';
+  const grat = S.scn === 'gratitude' ? S.env : 0;
+
+  ctx.globalCompositeOperation = 'source-over';
+  ctx.fillStyle = 'rgba(7,12,22,0.14)'; ctx.fillRect(0, 0, W, H);
+
+  // guide streamlines
+  const G = 10;
+  ctx.lineWidth = 1 * s;
+  for (let g = 0; g < G; g++) {
+    const th0 = (g / G) * Math.PI * 2 + S.t * 0.02;
+    const k = S.kappa;
+    ctx.beginPath();
+    for (let q = 0; q <= 28; q++) {                // outward path
+      const r = 0.05 + (0.95 * q) / 28;
+      const a = th0 + (tor ? 1.6 * k * r : 0.9 * k * r);
+      const px = cx + Math.cos(a) * r * R, py = cx + Math.sin(a) * r * R;
+      q ? ctx.lineTo(px, py) : ctx.moveTo(px, py);
+    }
+    ctx.strokeStyle = tor ? 'rgba(90,209,214,0.13)' : 'rgba(150,170,200,0.12)'; ctx.setLineDash([]); ctx.stroke();
+    if (tor) {                                      // return path, curving back to center
+      ctx.beginPath();
+      for (let q = 0; q <= 28; q++) {
+        const r = 1 - (0.95 * q) / 28;
+        const a = th0 + 1.6 * k - 4.0 * k * (1 - r);
+        const px = cx + Math.cos(a) * r * R, py = cx + Math.sin(a) * r * R;
+        q ? ctx.lineTo(px, py) : ctx.moveTo(px, py);
+      }
+      ctx.strokeStyle = 'rgba(183,156,255,0.20)'; ctx.setLineDash([6 * s, 6 * s]); ctx.stroke(); ctx.setLineDash([]);
+    }
+  }
+
+  // expansion / return waves
+  for (const w of S.waves) {
+    const a = w.r > 1 ? Math.max(0, 1 - (w.r - 1) / 0.4) : 1;
+    ctx.beginPath(); ctx.arc(cx, cx, w.r * R, 0, Math.PI * 2);
+    ctx.lineWidth = 2 * s;
+    if (w.dir > 0) { ctx.setLineDash([]); ctx.strokeStyle = `rgba(245,196,81,${0.38 * a})`; }
+    else { ctx.setLineDash([8 * s, 7 * s]); ctx.strokeStyle = 'rgba(183,156,255,0.45)'; }
+    ctx.stroke(); ctx.setLineDash([]);
+  }
+
+  // rings with fractal satellites
+  for (let k = 0; k < 4; k++) {
+    const xk = S.x[k], base = RINGS[k].r * R;
+    ctx.beginPath();
+    for (let q = 0; q <= 120; q++) {
+      const th = (q / 120) * Math.PI * 2;
+      const wob = 1 + 0.035 * Math.min(xk, 2) * Math.sin(5 * th + S.t * 1.3) + 0.018 * Math.min(xk, 2) * Math.sin(11 * th - S.t * 2);
+      const px = cx + Math.cos(th) * base * wob, py = cx + Math.sin(th) * base * wob;
+      q ? ctx.lineTo(px, py) : ctx.moveTo(px, py);
+    }
+    ctx.closePath();
+    ctx.lineWidth = (2 + k * 0.2) * s;
+    ctx.strokeStyle = ringColor(xk, 0.75); ctx.stroke();
+    // satellites: small self-similar loops with a tiny orbiting dot
+    const n = 6 + 2 * k, sr = (0.030 - 0.004 * k) * R;
+    for (let m = 0; m < n; m++) {
+      const th = (m / n) * Math.PI * 2 + S.t * (0.05 + 0.02 * k) * (k % 2 ? -1 : 1);
+      const px = cx + Math.cos(th) * base, py = cx + Math.sin(th) * base;
+      ctx.beginPath(); ctx.arc(px, py, sr, 0, Math.PI * 2);
+      ctx.lineWidth = 1 * s; ctx.strokeStyle = ringColor(xk, 0.45); ctx.stroke();
+      const o = S.t * 1.5 + m + k;
+      ctx.beginPath(); ctx.arc(px + Math.cos(o) * sr, py + Math.sin(o) * sr, 1.6 * s, 0, Math.PI * 2);
+      ctx.fillStyle = tor ? 'rgba(183,156,255,0.9)' : 'rgba(150,170,200,0.7)'; ctx.fill();
+    }
+    // label
+    ctx.font = `${Math.max(10, 12 * s)}px system-ui,sans-serif`;
+    ctx.fillStyle = 'rgba(233,238,248,0.78)';
+    ctx.textAlign = 'center';
+    ctx.fillText(RINGS[k].name, cx, cx - base - 7 * s);
+  }
+
+  // scenario markers
+  if (S.scn === 'ego' && S.env > 0.05) {
+    ctx.beginPath(); ctx.arc(cx, cx, (SHIELD.rIn + SHIELD.rOut) / 2 * R, SHIELD.a - SHIELD.half, SHIELD.a + SHIELD.half);
+    ctx.lineWidth = (SHIELD.rOut - SHIELD.rIn) * R; ctx.strokeStyle = `rgba(255,138,122,${0.25 * S.env})`; ctx.stroke();
+  }
+  if (S.scn === 'tribal' && S.env > 0.05) {
+    ctx.setLineDash([4 * s, 8 * s]); ctx.lineWidth = 1.5 * s; ctx.strokeStyle = `rgba(255,138,122,${0.6 * S.env})`;
+    ctx.beginPath(); ctx.moveTo(cx, cx - R * 1.02); ctx.lineTo(cx, cx + R * 1.02); ctx.stroke(); ctx.setLineDash([]);
+  }
+  if (S.scn === 'crisis' && S.env > 0.05) {
+    const pr = 0.12 + 0.1 * (0.5 + 0.5 * Math.sin(S.t * 9));
+    ctx.beginPath(); ctx.arc(cx, cx, pr * R, 0, Math.PI * 2);
+    ctx.strokeStyle = `rgba(255,170,90,${0.7 * S.env})`; ctx.lineWidth = 3 * s; ctx.stroke();
+  }
+  if (S.scn === 'gratitude' && S.env > 0.05) {
+    const g = ctx.createRadialGradient(cx, cx, 0, cx, cx, R);
+    g.addColorStop(0, `rgba(245,196,81,${0.16 * S.env})`); g.addColorStop(1, 'rgba(245,196,81,0)');
+    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(cx, cx, R, 0, Math.PI * 2); ctx.fill();
+  }
+
+  // particles
+  ctx.globalCompositeOperation = 'lighter';
+  for (let i = 0; i < N; i++) {
+    const [px, py] = pos(i, R, cx);
+    const k = binOf(S.P[i]);
+    let col;
+    if (tor) col = S.ST[i] === 0 ? '90,209,214' : '183,156,255';
+    else col = S.P[i] > 1 ? '255,150,110' : '140,175,215';
+    const sz = (S.ST[i] === 1 && tor ? 3.0 : 2.5) * s * (S.P[i] < 0.2 ? 0.8 : 1);
+    ctx.fillStyle = `rgba(${col},${0.85 * S.AL[i]})`;
+    ctx.beginPath(); ctx.arc(px, py, sz, 0, Math.PI * 2); ctx.fill();
+  }
+  ctx.globalCompositeOperation = 'source-over';
+
+  // anchor (always golden and unchanging; pulses faintly with breath)
+  const pulse = 1 + 0.12 * (0.5 + 0.5 * S.b) + 0.1 * grat;
+  const ar = 0.055 * R * pulse;
+  const g = ctx.createRadialGradient(cx, cx, 0, cx, cx, ar * 3.2);
+  g.addColorStop(0, 'rgba(255,236,170,1)'); g.addColorStop(0.35, 'rgba(245,196,81,0.9)'); g.addColorStop(1, 'rgba(245,196,81,0)');
+  ctx.fillStyle = g; ctx.beginPath(); ctx.arc(cx, cx, ar * 3.2, 0, Math.PI * 2); ctx.fill();
+  ctx.beginPath(); ctx.arc(cx, cx, ar, 0, Math.PI * 2); ctx.fillStyle = '#f5c451'; ctx.fill();
+  ctx.lineWidth = 2 * s; ctx.strokeStyle = '#fff4cf'; ctx.stroke();
+
+  // in-canvas caption
+  ctx.font = `${Math.max(11, 13 * s)}px system-ui,sans-serif`; ctx.textAlign = 'center';
+  const cap = tor ? 'Out through the rings, back through the anchor' : 'Out through the rings, no way back';
+  const cw = ctx.measureText(cap).width;
+  ctx.fillStyle = 'rgba(7,12,22,0.92)'; ctx.fillRect(cx - cw / 2 - 8 * s, H - 30 * s, cw + 16 * s, 22 * s);
+  ctx.fillStyle = 'rgba(233,238,248,0.9)';
+  ctx.fillText(cap, cx, H - 14 * s);
+  ctx.font = `${Math.max(10, 11 * s)}px system-ui,sans-serif`;
+  const ly = cx + R * 0.115 + 4 * s, tw = ctx.measureText('Invariant anchor').width;
+  ctx.fillStyle = 'rgba(7,12,22,0.8)'; ctx.fillRect(cx - tw / 2 - 5 * s, ly - 11 * s, tw + 10 * s, 15 * s);
+  ctx.fillStyle = 'rgba(245,196,81,1)';
+  ctx.fillText('Invariant anchor', cx, ly);
+}
+
+/* ------------------------------------------------------------------ *
+ * 6. UI wiring                                                         *
+ * ------------------------------------------------------------------ */
+const $ = id => document.getElementById(id);
+const ringList = $('ringlist');
+RINGS.forEach((r, k) => {
+  const li = document.createElement('li');
+  li.innerHTML = `<span class="dot" id="rd${k}"></span><span>${r.name}</span><span class="st" id="rs${k}">steady</span>`;
+  ringList.appendChild(li);
+});
+function setNarration(html) { $('narration').innerHTML = html; }
+function syncScenarioButtons() {
+  document.querySelectorAll('[data-scn]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.scn === S.scn)));
+  $('r-scn').textContent = S.scn ? SCENARIOS[S.scn].title : 'None';
+}
+function describe() {
+  const modeName = S.mode === 'toroidal' ? 'toroidal resonant circuit' : 'standard feedforward system with linear drift';
+  cv.setAttribute('aria-label', `Simulation canvas showing the ${modeName}. A golden anchor at the center, four concentric rings named Microscopic, Interpersonal, Local Fork and Macroscopic. ` +
+    (S.mode === 'toroidal' ? 'Flow moves outward and curves back to the anchor.' : 'Flow moves outward and does not return.') +
+    (S.scn ? ` Active scenario: ${SCENARIOS[S.scn].title}.` : ''));
+}
+function inject(name) {
+  S.scn = name; S.scnT0 = S.t; S.env = 0;
+  syncScenarioButtons();
+  setNarration(`<strong>${SCENARIOS[name].title}.</strong> ${SCENARIOS[name][S.mode]}`);
+  describe();
+}
+function setMode(m) {
+  S.mode = m;
+  $('badge').textContent = m === 'toroidal' ? 'Toroidal Resonant Circuit' : 'Standard Feedforward AI (Linear Drift)';
+  for (let i = 0; i < N; i++) { if (m === 'feedforward') { S.ST[i] = 0; S.AL[i] = 1; } }
+  ctx.fillStyle = '#070c16'; ctx.fillRect(0, 0, cv.width, cv.height);   // clear trails so captions never ghost
+  if (S.scn) setNarration(`<strong>${SCENARIOS[S.scn].title}.</strong> ${SCENARIOS[S.scn][m]}`);
+  else setNarration(m === 'toroidal'
+    ? '<strong>Toroidal Resonant Circuit.</strong> Flow goes out through the rings, then curves back through the invariant anchor.'
+    : '<strong>Standard Feedforward AI (Linear Drift).</strong> Flow only goes outward. Small disturbances are never returned to center, so drift accumulates.');
+  describe();
+}
+document.querySelectorAll('input[name=mode]').forEach(el => el.addEventListener('change', e => setMode(e.target.value)));
+document.querySelectorAll('[data-scn]').forEach(b => b.addEventListener('click', () => inject(b.dataset.scn)));
+$('b-settle').addEventListener('click', resetField);
+$('b-pause').addEventListener('click', e => {
+  S.paused = !S.paused; e.currentTarget.setAttribute('aria-pressed', String(S.paused)); e.currentTarget.textContent = S.paused ? 'Resume' : 'Pause';
+});
+$('s-rate').addEventListener('input', e => { S.rate = parseFloat(e.target.value); $('o-rate').textContent = S.rate.toFixed(2) + ' Hz'; });
+$('s-curv').addEventListener('input', e => { S.kappa = parseFloat(e.target.value); $('o-curv').textContent = S.kappa.toFixed(2); });
+
+let lastReadout = 0;
+function readout() {
+  const e = 0.5 * (1 + S.b);
+  $('r-breath').textContent = (S.b >= S.prevB ? 'Expanding' : 'Contracting') + ' · ' + Math.round(e * 100) + '%';
+  const ratio = S.rl > 0.5 ? Math.min(1, S.rr / S.rl) : 0;
+  $('r-return').textContent = S.mode === 'toroidal' ? (S.rl > 0.5 ? Math.round(ratio * 100) + '%' : '…') : '0%';
+  const mean = S.meanX || 0;
+  const coh = 1 / (1 + Math.pow(0.9 * mean * 2.2, 2));
+  S.coh = coh; S.ratio = S.mode === 'toroidal' ? ratio : 0;
+  $('r-coh').textContent = coh.toFixed(2);
+  $('bar-coh').style.width = Math.round(coh * 100) + '%';
+  $('r-edge').textContent = (S.re / 6).toFixed(1) + ' /s';
+  for (let k = 0; k < 4; k++) {
+    const xk = S.x[k];
+    const word = xk < 0.25 ? 'steady' : xk < 0.8 ? 'stirred' : 'scattered';
+    $('rs' + k).textContent = word;
+    $('rd' + k).style.borderColor = ringColor(xk, 1);
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * 7. Blueprint text (JS part is generated from the live function)      *
+ * ------------------------------------------------------------------ */
+const PY = `# Toroidal Resonant Layer — MIT License. Prose/comments: CC-BY-4.0.
+import math
+import torch
+import torch.nn as nn
+
+class ToroidalResonantLayer(nn.Module):
+    """Ring-wise update. State x has shape (batch, rings, dim) and holds each
+    ring's deviation from an invariant anchor (the anchor itself is never updated)."""
+
+    def __init__(self, rings=4, dim=16, lambda0=0.6, gain=3.0, spread=0.5,
+                 leak=0.05, kappa=0.6, mode="toroidal"):
+        super().__init__()
+        self.rings, self.dim, self.mode = rings, dim, mode
+        self.lambda0, self.gain, self.spread = lambda0, gain, spread
+        self.leak, self.kappa = leak, kappa
+        # optional learnable centrifugal mixing between neighbouring rings (identity at init)
+        self.mix = nn.ModuleList([nn.Linear(dim, dim, bias=False) for _ in range(rings)])
+        for m in self.mix:
+            nn.init.eye_(m.weight)
+
+    def forward(self, x, p, b, dt=1 / 60, settle=0.0):
+        # b: breath in [-1, 1]; p: perturbation, shape (rings,) or (batch, rings, dim)
+        if p.dim() == 1:
+            p = p.view(1, -1, 1)
+        e, c = 0.5 * (1 + b), 0.5 * (1 - b)
+        inner = torch.cat([torch.zeros_like(x[:, :1]), x[:, :-1]], dim=1)      # ring k-1 feeds ring k
+        inflow = torch.stack([self.mix[k](inner[:, k]) for k in range(self.rings)], dim=1)
+        if self.mode == "toroidal":
+            damp = self.lambda0 + self.gain * (0.35 + 0.65 * self.kappa) * c + 2.0 * settle  # curved return
+        else:
+            damp = self.leak + 0.1 * settle                                                   # no return path
+        x = x + dt * (p + self.spread * e * inflow - damp * x)
+        return x.clamp(-3.0, 3.0)
+
+# Usage: drive with a breathing signal and a perturbation on ring 1 (Interpersonal).
+layer = ToroidalResonantLayer(mode="toroidal")
+x = torch.zeros(1, 4, 16)
+p = torch.tensor([0.1, 1.5, 0.5, 0.15])
+for step in range(600):
+    b = math.sin(2 * math.pi * 0.18 * step / 60)
+    x = layer(x, p if step < 300 else torch.zeros(4), b)
+print(x.abs().mean(dim=(0, 2)))   # per-ring deviation after the perturbation ends
+`;
+function writeBlueprint() {
+  $('bp-py').textContent = PY;
+  $('bp-js').textContent =
+`// Toroidal Resonant update rule — MIT License. Comments: CC-BY-4.0.
+// This is the exact function this page runs every frame.
+const RING_DEFAULTS = ${JSON.stringify(RING_DEFAULTS)};
+
+${ringStep.toString()}
+
+// Usage
+let x = [0, 0, 0, 0];
+const p = [0.1, 1.5, 0.5, 0.15];            // perturbation on ring 1
+for (let step = 0; step < 600; step++) {
+  const b = Math.sin(2 * Math.PI * 0.18 * step / 60);
+  x = ringStep(x, step < 300 ? p : [0, 0, 0, 0], b, RING_DEFAULTS);
+}
+console.log(x);`;
+}
+
+/* ------------------------------------------------------------------ *
+ * 8. Main loop + test hook                                             *
+ * ------------------------------------------------------------------ */
+let last = performance.now();
+function frame(now) {
+  const dt = Math.min(0.05, (now - last) / 1000); last = now;
+  if (!S.paused) { update(dt); draw(); }
+  if (now - lastReadout > 200) { lastReadout = now; readout(); }
+  requestAnimationFrame(frame);
+}
+function advance(seconds) {            // deterministic stepping (used by tests; also handy for embedding)
+  const n = Math.round(seconds * 60);
+  for (let i = 0; i < n; i++) update(1 / 60);
+  draw(); readout();
+}
+window.__toroidal = {
+  advance, inject, setMode, reset: resetField,
+  state: () => ({ mode: S.mode, t: S.t, x: S.x.slice(), scn: S.scn, env: S.env, ratio: S.ratio, coh: S.coh, edge: S.re / 6,
+                  rate: S.rate, kappa: S.kappa, breath: S.b, waves: S.waves.length,
+                  curve: Array.from({length:N},(_,i)=>Math.abs(curve(i))).reduce((a,v)=>a+v,0)/N, meanR: Array.from(S.P).reduce((a, v) => a + v, 0) / N,
+                  spiral: Array.from(S.W).reduce((a, v) => a + Math.abs(v), 0) / N })
+};
+
+window.addEventListener('resize', () => { resize(); });
+if ('ResizeObserver' in window) new ResizeObserver(resize).observe(cv);
+writeBlueprint();
+for (let i = 0; i < N; i++) spawn(i, true);
+resize(); describe(); setMode('toroidal'); setNarration('<strong>Ready.</strong> Flow goes out through the rings, then curves back through the invariant anchor. Inject a scenario, or switch modes to compare.');
+if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  S.paused = true; $('b-pause').setAttribute('aria-pressed', 'true'); $('b-pause').textContent = 'Resume';
+  advance(6);
+}
+requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>

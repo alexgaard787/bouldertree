@@ -4,13 +4,14 @@ BoulderTree is a monorepo for **Cocaine Anonymous World Service (CAWS)-aligned**
 
 This repository exists so coding and research agents can work from a single layout without mixing fellowship domains. Live rosters, personal contact details, and private records stay out of this repository to protect anonymity (Traditions Eleven and Twelve). Public pages operate on attraction rather than promotion (Tradition Eleven), keep C.A. self-supporting and separate from outside enterprises (Traditions Six and Seven), and stay focused on recovery without outside controversy (Tradition Ten).
 
-**Current work in this repository is limited to CA Regional Website & Service (Drive folder `02`).** Other domains from the planned layout are listed below so their paths stay reserved, but their content is not present and must not be added in a CA Regional change.
+**Present domains in this repository:** CA Regional Website & Service (Drive folder `02`) and the Toroidal Resonant Network simulation (Drive folder `04`). Other domains from the planned layout are listed below so their paths stay reserved. Do not mix domains in a single change.
 
 ## Domain boundaries (never mix)
 
 1. **Sponsorship & Sponsee Course** (Drive folder `01`) — reserved under `apps/perception-surrender-mirror/` and `curricula/walking-in-the-spirit/`. Not created in this commit.
-2. **CA Regional Website & Service** (Drive folder `02`) — `platforms/ca-regional/` and `apps/group-bootstrapper/`. This is the only domain with files today.
-3. **Plum Creek Recovery Ranch** (Drive folder `03`) — reserved under `platforms/plum-creek/`. Not created in this commit. Do not add treatment, admissions, or HIPAA/42 CFR Part 2 materials to CA Regional paths.
+2. **CA Regional Website & Service** (Drive folder `02`) — `platforms/ca-regional/` and `apps/group-bootstrapper/`.
+3. **Plum Creek Recovery Ranch** (Drive folder `03`) — reserved under `platforms/plum-creek/`. Not created in this commit. Do not add treatment, admissions, or HIPAA/42 CFR Part 2 materials to CA Regional or simulation paths.
+4. **Outreach, Simulation & White Papers** (Drive folder `04`) — `apps/toroidal-resonant-network/`. Interactive, source-agnostic simulation comparing a toroidal resonant circuit to feedforward linear drift. Do not add fellowship names, treatment or admissions material, or personal details here.
 
 ## Planned layout
 
@@ -32,12 +33,16 @@ bouldertree/
 │   │       ├── three-pillar-mirror.md
 │   │       └── universal-facebook-quiz.md
 │   │
-│   └── group-bootstrapper/                    # present — Conversational local-group site fork generator
-│       ├── bootstrap-flow.md                  # planned, not created
-│       ├── schema/
-│       │   └── group-config.schema.json       # present — Validation schema for group.json forks
-│       └── examples/
-│           └── bottom-line-club-101.json      # present — Sample config only; unverified facts are "[VERIFY]"
+│   ├── group-bootstrapper/                    # present — Conversational local-group site fork generator
+│   │   ├── bootstrap-flow.md                  # planned, not created
+│   │   ├── schema/
+│   │   │   └── group-config.schema.json       # present — Validation schema for group.json forks
+│   │   └── examples/
+│   │       └── bottom-line-club-101.json      # present — Sample config only; unverified facts are "[VERIFY]"
+│   │
+│   └── toroidal-resonant-network/             # present — Interactive toroidal vs. feedforward simulation (folder 04)
+│       ├── index.html                         # present — single-file, offline, no dependencies
+│       └── README.md                          # present
 │
 ├── platforms/
 │   ├── ca-regional/                           # present — CA Regional Council website, flyers, group tools & outreach
